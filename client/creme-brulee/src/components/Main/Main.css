@@ -1,0 +1,23 @@
+.parent-div{
+    display: flex;
+    flex-wrap: wrap;
+}
+.child-one{
+  background-image: url('https://images.pexels.com/photos/13647832/pexels-photo-13647832.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') ;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 500px;
+    
+}
+#para1{
+    color: wheat;
+    font-family: 'Dancing Script', cursive;
+    font-size: 10vh;
+}
+#para2{
+    color:wheat;
+    font-family: 'Dancing Script', cursive;
+    font-size: 4vh;
+}
+
