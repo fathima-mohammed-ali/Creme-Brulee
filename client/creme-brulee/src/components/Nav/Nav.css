@@ -1,0 +1,53 @@
+.nav-style{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 3vw;
+    background-color: black;
+    
+}
+.navText-style{
+    font-family: 'Dancing script',cursive;
+    padding-right: 100px;
+    padding-left: 30px;     
+}
+
+#portfolio-bar{
+ padding-left: 30px;
+}
+#blog-bar{
+  padding-left: 30px;   
+}
+#shop-bar{
+    padding-left: 30px;
+}
+#cart-bar{
+   padding-left: 30px;
+}
+.fi{
+    padding-left: 10px;
+}
+#login-bar{
+    padding-left: 20px;   
+}
+#login-bar:hover{
+    cursor: pointer;
+}
+.form-labels{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: large;
+    text-decoration-line: none;
+    color: black;
+    padding: 5px;
+}
+.form-checkbox{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: large;
+    margin-top: 20px;
+}
+.controls{
+    width: 400px;
+}
+
+
+
+
+
