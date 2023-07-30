@@ -51,5 +51,9 @@ color: whitesmoke;
 .mySwiper{
   margin-top: 120px;
 }
+.flex-container{
+  display: flex;
+  flex-wrap: wrap;
+}
 
 
