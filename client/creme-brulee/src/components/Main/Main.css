@@ -55,5 +55,13 @@ color: whitesmoke;
   display: flex;
   flex-wrap: wrap;
 }
-
+#description{
+  font-family: 'Dancing script',cursive;
+  padding-top: 50px;
+  text-decoration-line: underline;
+}
+#ingredients{
+  font-family: 'Dancing script',cursive;
+  text-decoration-line: underline;
+}
 
