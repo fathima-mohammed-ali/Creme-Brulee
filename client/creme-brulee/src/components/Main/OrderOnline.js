@@ -3,14 +3,43 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ReactCardFlip from "react-card-flip";
 import Modal from 'react-bootstrap/Modal';
-import {Row,Form,Col} from 'react-bootstrap'
+import { Row, Form, Col } from 'react-bootstrap'
+import axios from 'axios';
 import './Main.css'
 export default function OrderOnline() {
+    {/*to view Modal*/ }
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const inputChange =(e)=>{}
+    {/*to store cake items*/ }
+    const [cakeOrder, setCakeOrder] = useState({
+        event: "",
+        theme: "",
+        kg: "",
+        flavour: "",
+        date: "",
+        time: "",
+        location: "",
+        contact: "",
+    })
+    const inputChange = (event) => {
+        const { name, value } = event.target
+        setCakeOrder({ ...cakeOrder, [name]: value })
+    }
+    const [validated, setValidated] = useState(false);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        if (form.checkValidity() === true) {
+            event.stopPropagation();
+            axios.post("http://localhost:4000/order/cake", cakeOrder).then((response) => {
+                console.log(response);
+            })
+        }
+
+        setValidated(true);
+    };
     const [flip, setFlip] = useState(false);
     const [fliptwo, setFliptwo] = useState(false);
     const [flipthree, setFlipthree] = useState(false);
@@ -20,7 +49,7 @@ export default function OrderOnline() {
     return (
         <>
 
-
+            {/*order card parent div1*/}
             <div className='flex-container'>
                 <ReactCardFlip isFlipped={flip}
                     flipDirection="vertical">
@@ -145,6 +174,9 @@ export default function OrderOnline() {
 
                 </ReactCardFlip>
             </div>
+
+            {/*order card parent div2*/}
+
             <div className='flex-container'>
                 <ReactCardFlip isFlipped={flipfour}
                     flipDirection="vertical">
@@ -268,88 +300,101 @@ export default function OrderOnline() {
 
                 </ReactCardFlip>
 
+                {/*modal for place order*/}
+
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title style={{fontFamily: "Dancing script"}}>Your Order Please!..</Modal.Title>
+                        <Modal.Title style={{ fontFamily: "Dancing script" }}>Your Order Please!..</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                    <Row className="mb-3"> 
-                    <Form.Group as={Col} md="4" controlId="validationCustomUsername"> 
-                <Form.Label className='order-labels'>Event</Form.Label>
-                  <Form.Control
-                  onChange={inputChange}
-                    type="text"
-                    name='event'
-                    placeholder="eg:Wedding"
-                    aria-describedby="inputGroupPrepend"
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Mention the Event.
-                  </Form.Control.Feedback>
-              </Form.Group>
-            </Row>
-            <Row className="mb-3">
-              <Form.Group as={Col} md="6" controlId="validationCustom03">
-                <Form.Label className='order-labels'>Theme</Form.Label>
-                <Form.Control onChange={inputChange} name='theme' type="text" placeholder="eg:floral" required />
-                <Form.Control.Feedback type="invalid">
-                  Mention the Theme.
-                </Form.Control.Feedback>
-              </Form.Group>
-              </Row>
-              <Row className="mb-3">
-              <Form.Group as={Col} md="6" controlId="validationCustom03">
-                <Form.Label className='order-labels'>Kg</Form.Label>
-                <Form.Control onChange={inputChange} name='kg' type="number" placeholder="eg:no tiers" required />
-                <Form.Control.Feedback type="invalid">
-                  Mention the Kg.
-                </Form.Control.Feedback>
-              </Form.Group>
-              </Row>
-              <Row className="mb-3">
-              <Form.Group as={Col} md="6" controlId="validationCustom03">
-                <Form.Label className='order-labels'>Flavour</Form.Label>
-                <Form.Control onChange={inputChange} name='flavour' type="text" placeholder="Password" required />
-                <Form.Control.Feedback type="invalid">
-                  Sorry this Theme not available.
-                </Form.Control.Feedback>
-              </Form.Group>
-              </Row>
-              <Row className="mb-3">
-              <Form.Group as={Col} md="6" controlId="validationCustom03">
-                <Form.Label className='order-labels'>Date</Form.Label>
-                <Form.Control onChange={inputChange} name='date' type="date"  required />
-                <Form.Control.Feedback type="invalid">
-                  Mention the date.
-                </Form.Control.Feedback>
-              </Form.Group>
-              </Row>
-              <Row className="mb-3">
-              <Form.Group as={Col} md="6" controlId="validationCustom03">
-                <Form.Label className='order-labels'>Time</Form.Label>
-                <Form.Control onChange={inputChange} name='time' type="time" required />
-                <Form.Control.Feedback type="invalid">
-                  Time not added.
-                </Form.Control.Feedback>
-              </Form.Group>
-              </Row>
-              <Row className="mb-3">
-              <Form.Group as={Col} md="6" controlId="validationCustom03">
-                <Form.Label className='order-labels'>Location</Form.Label>
-                <Form.Control onChange={inputChange} name='location' type="text" placeholder="eg:Where to deliver" required />
-                <Form.Control.Feedback type="invalid">
-                  Location not specified
-                </Form.Control.Feedback>
-              </Form.Group>
-              </Row>
-              </Modal.Body>
+                        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md="4" controlId="validationCustomUsername">
+                                    <Form.Label className='order-labels'>Event</Form.Label>
+                                    <Form.Control
+                                        onChange={inputChange}
+                                        type="text"
+                                        name='event'
+                                        placeholder="eg:Wedding"
+                                        aria-describedby="inputGroupPrepend"
+                                        required
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Mention the Event.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Row>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                                    <Form.Label className='order-labels'>Theme</Form.Label>
+                                    <Form.Control onChange={inputChange} name='theme' type="text" placeholder="eg:floral" required />
+                                    <Form.Control.Feedback type="invalid">
+                                        Mention the Theme.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Row>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                                    <Form.Label className='order-labels'>Kg</Form.Label>
+                                    <Form.Control onChange={inputChange} name='kg' type="number" placeholder="eg:no:tiers" required />
+                                    <Form.Control.Feedback type="invalid">
+                                        Mention the Kg.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Row>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                                    <Form.Label className='order-labels'>Flavour</Form.Label>
+                                    <Form.Control onChange={inputChange} name='flavour' type="text" placeholder="eg:Ferraro Rocher" required />
+                                    <Form.Control.Feedback type="invalid">
+                                        Sorry this Flavour not available.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Row>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                                    <Form.Label className='order-labels'>Date</Form.Label>
+                                    <Form.Control onChange={inputChange} name='date' type="date" required />
+                                    <Form.Control.Feedback type="invalid">
+                                        Mention the date.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Row>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                                    <Form.Label className='order-labels'>Time</Form.Label>
+                                    <Form.Control onChange={inputChange} name='time' type="time" required />
+                                    <Form.Control.Feedback type="invalid">
+                                        Time not added.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Row>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                                    <Form.Label className='order-labels'>Location</Form.Label>
+                                    <Form.Control onChange={inputChange} name='location' type="text" placeholder="eg:Where to deliver" required />
+                                    <Form.Control.Feedback type="invalid">
+                                        Location not specified
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Row>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                                    <Form.Label className='order-labels'>Mobile/Phone Number</Form.Label>
+                                    <Form.Control onChange={inputChange} name='contact' type="tel" placeholder="eg:Your Contact Number" required />
+                                    <Form.Control.Feedback type="invalid">
+                                        Contact Number is invalid
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Row>
+                            <Button type='submit' variant="primary">
+                            Place Order
+                        </Button>
+                        </Form>
+                    </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                             Close
-                        </Button>
-                        <Button variant="primary" onClick={handleClose}>
-                            Place Order
                         </Button>
                     </Modal.Footer>
                 </Modal>

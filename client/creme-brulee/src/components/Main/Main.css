@@ -64,4 +64,65 @@ color: whitesmoke;
   font-family: 'Dancing script',cursive;
   text-decoration-line: underline;
 }
-
+.sidebar{
+  display: flex;
+  align-items: end;
+  margin-top: 10%;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+#categories{
+  font-family: 'Dancing script',cursive;
+  margin-right: 90px;
+}
+#items{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 3vh;
+  margin-left: 25px;
+}
+#linkItems{
+  text-decoration-line: none;
+  color: gray;
+}
+#popular-products{
+  font-family: 'Dancing script',cursive;
+  margin-right: 10px; 
+  margin-top: 50px;
+}
+#price-filter{
+  font-family: 'Dancing script',cursive;
+  margin-right: 80px;
+  margin-top: 50px;
+}
+#price{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 3vh;
+  margin-left: 100px;
+  color: gray;
+}
+#filter-btn:hover{
+  background-color: black;
+}
+#sidebar-follow{
+  font-family: 'Dancing script',cursive;
+  margin-right: 100px;
+  margin-top: 50px;
+}
+#follow-icons{
+margin-right: 50px;
+}
+#tags{
+  font-family: 'Dancing script',cursive;  
+  margin-right: 170px;
+  margin-top:50px ;
+}
+#tag-links{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 3vh;
+  color:gray ;
+}
+#tag-items{
+  color:gray ;
+  text-decoration-line: none;
+}
