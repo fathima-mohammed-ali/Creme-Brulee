@@ -54,6 +54,7 @@ color: whitesmoke;
 .flex-container{
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
 }
 #description{
   font-family: 'Dancing script',cursive;
@@ -114,15 +115,50 @@ margin-right: 50px;
 }
 #tags{
   font-family: 'Dancing script',cursive;  
-  margin-right: 170px;
+  margin-right: 160px;
   margin-top:50px ;
 }
 #tag-links{
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: 3vh;
+  font-size: small;
   color:gray ;
+  
 }
 #tag-items{
   color:gray ;
   text-decoration-line: none;
+}
+.cakename{
+  margin-top: 150px;
+  width: 500px;
+}
+.descrp{
+  width: 475px;
+}
+.price-define{
+  width: 480px
+}
+#footer-link{
+  list-style: none;
+}
+#useful-links{
+ color:grey;
+ text-decoration-line: none; 
+ font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+ font-size: 3vh;
+ line-height: 30px;
+}
+#footer-para{
+  color:grey; 
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 3vh;
+}
+.child-four{
+  margin-left: 60px;
+}
+.child-one{
+  margin-top: 100px;
+}
+#footer-icons{
+  margin-top: 20px;
 }
