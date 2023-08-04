@@ -78,7 +78,7 @@ const[userInfo,setUserInfo]= useState({
           </Navbar.Collapse>
           <Navbar.Text className='navText-style'>Creme Brulee</Navbar.Text>
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Navbar.Brand id='order-bar' href="/order">Order Online</Navbar.Brand>
+            <Navbar.Brand id='order-bar' href="/order-cake">Order Online</Navbar.Brand>
             <Navbar.Brand id='login-bar' onClick={handleShow}>Login<AccountCircleOutlinedIcon style={{ marginLeft: 10, marginBottom: 3 }} /></Navbar.Brand>
             <Navbar.Brand id='cart-bar' href="/">Cart<i class="fi fi-ss-shopping-cart"></i></Navbar.Brand>
           </Navbar.Collapse>

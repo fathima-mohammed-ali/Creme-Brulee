@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React,{useState,useEffect} from 'react'
 import { Form, Row, Col, Button, InputGroup, Modal,Dropdown,Breadcrumb } from 'react-bootstrap';
 import './Main.css'
 import axios from 'axios'
 import { TextField } from '@mui/material';
-export default function AddCake() {
+export default function AddDonut() {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [DeleteCake, setDeleteCake] = useState({
-        cakename: ""
+    const [DeleteDonut, setDeleteDonut] = useState({
+        donutname: ""
     })
     const remove = (event) => {
         const { name, value } = event.target
-        setDeleteCake({ ...DeleteCake, [name]: value })
+        setDeleteDonut({ ...DeleteDonut, [name]: value })
     }
     const [updateData, setUpdateData] = useState({
-        cakename: "",
+        donutname: "",
         description: "",
         ingredients: "",
         price: "",
@@ -25,8 +25,8 @@ export default function AddCake() {
     })
 
     const [file, setfile] = useState('')
-    const [addCake, setAddcake] = useState({
-        cakename: "",
+    const [addDonut, setAddDonut] = useState({
+        donutname: "",
         description: "",
         ingredients: "",
         price: "",
@@ -34,7 +34,7 @@ export default function AddCake() {
     })
     const inputChange = (event) => {
         const { name, value } = event.target
-        setAddcake({ ...addCake, [name]: value })
+        setAddDonut({ ...addDonut, [name]: value })
     }
     const updateChange = (event) => {
         const { name, value } = event.target
@@ -42,22 +42,14 @@ export default function AddCake() {
     }
     const [validated, setValidated] = useState(false);
 
-    // const updateCake = (cakename) => {
-    //     axios.get(`http://localhost:4000/order/single-view/${cakename}`).then((response) => {
-    //         console.log(response);
-    //     })
-
-    // }
-
-
     const submitNew = () => {
-        axios.post(`http://localhost:4000/order/update-cake/${DeleteCake.cakename}`, updateData).then((response) => {
+        axios.post(`http://localhost:4000/order/update-donut/${DeleteDonut.donutname}`, updateData).then((response) => {
             console.log(response);
             const details = response.data.details
         })
     }
     const deleteSubmit = () => {
-        axios.post(`http://localhost:4000/order/delete-cake`, DeleteCake).then((response) => {
+        axios.post(`http://localhost:4000/order/delete-donut`, DeleteDonut).then((response) => {
             console.log(response);
         })
     }
@@ -71,30 +63,31 @@ export default function AddCake() {
             const filename = file.name
             data.append("name", filename)
             data.append("file", file)
-            data.append("cakename", addCake.cakename)
-            data.append("description", addCake.description)
-            data.append("ingredients", addCake.ingredients)
-            data.append("price", addCake.price)
-            data.append("image", addCake.image)
-            axios.post('http://localhost:4000/order/cake-details', data).then((response) => {
+            data.append("donutname", addDonut.donutname)
+            data.append("description", addDonut.description)
+            data.append("ingredients", addDonut.ingredients)
+            data.append("price", addDonut.price)
+            data.append("image", addDonut.image)
+            axios.post('http://localhost:4000/order/donut-details', data).then((response) => {
                 console.log(response);
             })
         }
     }
-    return (
-        <>
-         <Breadcrumb style={{ marginTop: 150 }}>
+  return (
+    <>
+     <Breadcrumb style={{ marginTop: 150 }}>
                 <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-                <Breadcrumb.Item href="/order-cake">
+                <Breadcrumb.Item href="/order-donut">
                     Back to Page
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>Data</Breadcrumb.Item>
             </Breadcrumb>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+
+     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">
                     <InputGroup className='cakename'>
-                        <InputGroup.Text>Cake Name/Flavour</InputGroup.Text>
-                        <Form.Control onChange={inputChange} name='cakename' type="text" required placeholder="eg:Spanish Delight" />
+                        <InputGroup.Text>Donut Name/Flavour</InputGroup.Text>
+                        <Form.Control onChange={inputChange} name='donutname' type="text" required placeholder="eg:StrawBerry Frost" />
                     </InputGroup>
                 </Row>
                 <Row className="mb-3">
@@ -130,7 +123,7 @@ export default function AddCake() {
                 <Row className="mb-3">
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Label>Default file input example</Form.Label>
-                        <Form.Control onChange={(e) => { e.preventDefault(); setAddcake({ ...addCake, image: e.target.files[0].name }); setfile(e.target.files[0]); }} type="file" />
+                        <Form.Control onChange={(e) => { e.preventDefault(); setAddDonut({ ...addDonut, image: e.target.files[0].name }); setfile(e.target.files[0]); }} type="file" />
                     </Form.Group>
                 </Row>
                 <Button type='submit' variant="primary">
@@ -141,12 +134,12 @@ export default function AddCake() {
             <Form>
                 <Row className="mb-3">
                     <InputGroup className='cakename'>
-                        <InputGroup.Text>Cake Name/Flavour</InputGroup.Text>
-                        <Form.Control onChange={remove} name='cakename' type="text" required placeholder="eg:Spanish Delight" />
+                        <InputGroup.Text>Donut Name/Flavour</InputGroup.Text>
+                        <Form.Control onChange={remove} name='donutname' type="text" required placeholder="eg:StrawBerry Frost" />
                     </InputGroup>
-                    <Dropdown>
+                    {/* <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Choose a Cake
+                            Choose a 
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -156,7 +149,7 @@ export default function AddCake() {
                             <Dropdown.Item href="#/action-2">Red Velvet</Dropdown.Item>
                             <Dropdown.Item href="#/action-3">Toffee</Dropdown.Item>
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
                 </Row>
                 <Button variant="primary" onClick={deleteSubmit}>
                     Delete
@@ -168,10 +161,10 @@ export default function AddCake() {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header>
-                    <Modal.Title>Update Cake</Modal.Title>
+                    <Modal.Title>Update Donut</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <TextField onChange={updateChange} sx={{ marginBottom: 2 }} label='Cake Flavour' name='cakename' ></TextField>
+                    <TextField onChange={updateChange} sx={{ marginBottom: 2 }} label='Donut Flavour' name='donutname' ></TextField>
                     <TextField onChange={updateChange} sx={{ marginBottom: 2, marginLeft: 2 }} label='Description' name='description'></TextField>
                     <TextField onChange={updateChange} sx={{ marginBottom: 2 }} label='Ingredeints' name='ingredients'></TextField>
                     <TextField onChange={updateChange} sx={{ marginBottom: 2, marginLeft: 2 }} label='Price' name='price'></TextField>
@@ -189,7 +182,6 @@ export default function AddCake() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-        </>
-    )
+    </>
+  )
 }
