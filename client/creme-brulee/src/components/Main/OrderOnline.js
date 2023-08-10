@@ -3,10 +3,67 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ReactCardFlip from "react-card-flip";
 import Modal from 'react-bootstrap/Modal';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import { Row, Form, Col, Breadcrumb } from 'react-bootstrap'
 import axios from 'axios';
 import './Main.css'
+
+function paginator(items, current_page, per_page_items) {
+    let page = current_page || 1,
+        per_page = per_page_items,
+        offset = (page - 1) * per_page,
+        paginatedItems = items.slice(offset).slice(0, per_page_items),
+        total_pages = Math.ceil(items.length / per_page);
+    console.log();
+
+    return {
+        page: page,
+        per_page: per_page,
+        pre_page: page - 1 ? page - 1 : null,
+        next_page: total_pages > page ? page + 1 : null,
+        total: items.length,
+        total_pages: total_pages,
+        data: paginatedItems
+    };
+
+}
+
 export default function OrderOnline() {
+
+    const[carrierDetails,setCarrierDetails]=useState([
+             useEffect(() => {
+            axios.get("http://localhost:4000/order/view-cake")
+                .then((response) => {
+                    console.log(response);
+                    const details = response.data.details;
+                    setCarrierDetails(details)
+
+                })
+        }, [])
+    ])
+      
+console.log(carrierDetails);
+    const count = Math.ceil(carrierDetails.length / 3);
+    console.log(count);
+    const [page, setPage] = useState(1);
+    const handleChange = (event, value) => {
+        setPage(paginator(carrierDetails, value, 3).page);
+    };
+    const [checked, setChecked] = React.useState([]);
+    const handleOnChange = (e, index) => {
+        let prev = checked;
+        let itemIndex = prev.indexOf(index);
+        if (itemIndex !== -1) {
+            prev.splice(itemIndex, 1);
+        } else {
+            prev.push(index);
+        }
+        setChecked([...prev]);
+    };
+    console.log(checked);
+
+
     const [getAddCake, setGetAddCake] = useState([])
     {/*to view Modal*/ }
     const [show, setShow] = useState(false);
@@ -41,19 +98,11 @@ export default function OrderOnline() {
 
         setValidated(true);
     };
-    useEffect(() => {
-        axios.get("http://localhost:4000/order/view-cake")
-            .then((response) => {
-                console.log(response);
-                const details = response.data.details;
-                setGetAddCake(details)
-
-            })
-    }, [])
+  
     const [flip, setFlip] = useState({
-        index:''
+        index: ''
     });
-    
+console.log(paginator(carrierDetails, page, 3).data);
     return (
         <>
             <Breadcrumb style={{ marginTop: 150 }}>
@@ -65,58 +114,61 @@ export default function OrderOnline() {
             </Breadcrumb>
 
             {/*order card parent div1*/}
-            <div className='flex-container'>
-                {getAddCake.map((data,key) => (
-                    <>
-                        <ReactCardFlip isFlipped={flip.index===key? true: false}
-                            flipDirection="vertical">
-                            <div className='card-one'>
-                                <Card style={{ width: '15rem', marginTop: 50,}}>
-                                    <Card.Img variant="top" src={`/upload/${data.image}`}/>
-                                    <Card.Body>
-                                        <Card.Title style={{ fontFamily: "Dancing script", fontSize: "5vh" }}><b>{data.cakename}</b></Card.Title>
-                                        <Button variant="dark" onClick={() => setFlip({index:key})}>For More Details</Button>
-                                    </Card.Body>
-                                </Card>
-                            </div>
-                            <div style={{
-                                width: '15rem',
-                                height: 'auto',
-                                backgroundColor: 'aliceblue',
-                                marginTop: 50,
-                                marginLeft: 20,
-                                borderRadius: '4px',
-                                textAlign: 'center',
-                            }}>
-                                <h4 id='description'>Description</h4>
-                                <p>{data.description} </p>
-                                <h4 id='ingredients'>Ingredients</h4>
-                                <p>{data.ingredients}</p>
-                                <h4>${data.price}</h4>
-                                <Button onClick={handleShow}>Order Now</Button>
-                                <br />
-                                <Button style={{
-                                    width: '150px',
-                                    marginTop: 10,
-                                    fontSize: '20px',
-                                    background: 'azure',
-                                    color: 'blueviolet',
-                                    fontWeight: 'bold',
-                                    borderRadius: '5px'
-                                }} onClick={() => setFlip(!flip)}>
-                                    Flip</Button>
-                            </div>
-                        </ReactCardFlip>
-                    </>
-                ))}
 
-              
+            <div className='flex-container'>
+               
+                            {paginator(carrierDetails, page, 6).data.map((data, index) => (
+                                <>
+                                    <ReactCardFlip isFlipped={flip.index === index ? true : false}
+                                        flipDirection="vertical">
+                                        <div className='card-one'>
+                                            <Card style={{ width: '15rem', marginTop: 50, }} alignItems="flex-start"
+                                                divider={index < carrierDetails.length - 1}>
+                                                <Card.Img variant="top" src={`/upload/${data.image}`} />
+                                                <Card.Body>
+                                                    <Card.Title style={{ fontFamily: "Dancing script", fontSize: "5vh" }}><b>{data.cakename}</b></Card.Title>
+                                                    <Button variant="dark" onClick={() => setFlip({ index: index })}>For More Details</Button>
+                                                </Card.Body>
+                                            </Card>
+                                        </div>
+                                        <div style={{
+                                            width: '15rem',
+                                            height: 'auto',
+                                            backgroundColor: 'aliceblue',
+                                            marginTop: 50,
+                                            marginLeft: 20,
+                                            borderRadius: '4px',
+                                            textAlign: 'center',
+                                        }}>
+                                            <h4 id='description'>Description</h4>
+                                            <p>{data.description} </p>
+                                            <h4 id='ingredients'>Ingredients</h4>
+                                            <p>{data.ingredients}</p>
+                                            <h4>${data.price}</h4>
+                                            <Button onClick={handleShow}>Order Now</Button>
+                                            <br />
+                                            <Button style={{
+                                                width: '150px',
+                                                marginTop: 10,
+                                                fontSize: '20px',
+                                                background: 'azure',
+                                                color: 'blueviolet',
+                                                fontWeight: 'bold',
+                                                borderRadius: '5px'
+                                            }} onClick={() => setFlip(!flip)}>
+                                                Flip</Button>
+                                        </div>
+                                    </ReactCardFlip>
+                                </>
+                                   
+                            ))}
+                      
             </div>
 
             {/*order card parent div2*/}
 
             <div className='flex-container'>
-                
+
 
                 {/*modal for place order*/}
 
@@ -220,7 +272,14 @@ export default function OrderOnline() {
 
             </div>
 
-
+            <Stack spacing={2}>
+                <Pagination
+                    count={count}
+                    page={page}
+                    onChange={handleChange}
+                    color="success"
+                />
+            </Stack>
 
         </>
 

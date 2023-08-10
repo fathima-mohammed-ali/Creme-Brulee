@@ -73,7 +73,7 @@ const[userInfo,setUserInfo]= useState({
           <Navbar.Collapse id="responsive-navbar-nav">
             <Navbar.Brand id='home-bar' href="/">Home</Navbar.Brand>
             <Navbar.Brand id='portfolio-bar' href="/profile">Portfolio</Navbar.Brand>
-            <Navbar.Brand id='blog-bar' href="/" >Blog</Navbar.Brand>
+            <Navbar.Brand id='blog-bar' href="/blog" >Blog</Navbar.Brand>
             <Navbar.Brand id='shop-bar' href="/">Shop</Navbar.Brand>
           </Navbar.Collapse>
           <Navbar.Text className='navText-style'>Creme Brulee</Navbar.Text>

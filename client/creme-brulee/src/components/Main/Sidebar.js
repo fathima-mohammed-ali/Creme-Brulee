@@ -21,8 +21,8 @@ export default function Sidebar() {
                     <h2 id='categories'>Categories</h2>
                     <li id='items'><Link id='linkItems' to={'/order-cake'}>Cake</Link></li>
                     <li id='items'><Link id='linkItems' to={'/order-donut'}>Donuts</Link></li>
-                    <li id='items'><Link id='linkItems' to={'/'}>Desert</Link></li>
-                    <li id='items'><Link id='linkItems' to={'/'}>Cup Cakes</Link></li>
+                    <li id='items'><Link id='linkItems' to={'/order-dessert'}>Desert</Link></li>
+                    <li id='items'><Link id='linkItems' to={'/order-cupcake'}>Cup Cakes</Link></li>
                 </ul>
                 <ul>
                     <h2 id='popular-products'>Popular Products</h2>

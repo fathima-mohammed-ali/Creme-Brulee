@@ -162,3 +162,38 @@ margin-right: 50px;
 #footer-icons{
   margin-top: 20px;
 }
+#order-pagination{
+  margin-top: 150px;
+  margin-left: 400px;
+}
+.blog{
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-around; */
+}
+.left-part{
+  flex-direction: column;
+  margin-top: 100px;
+  margin-left: 20px;
+}
+.right-part{
+  margin-left: 100px;
+  margin-top: 200px;
+  
+}
+#creation-para{
+  text-align: center;
+}
+.carousel{
+  margin-left: 50px;
+  margin-top: 100px;
+}
+.border{
+  border-style: hidden;
+  width: 900px;
+  height: 350px;
+  background-color:white;
+  color:goldenrod;
+  margin-left: 50px;
+}
+

@@ -6,19 +6,19 @@ import Modal from 'react-bootstrap/Modal';
 import { Row, Form, Col, Breadcrumb } from 'react-bootstrap'
 import axios from 'axios';
 import './Main.css'
-
-export default function OrderDessert() {
-    const [getAddDessert, setGetAddDessert] = useState([])
+export default function OrderCupcake() {
+    const [getAddCupcake, setGetAddCupcake] = useState([])
     {/*to view Modal*/ }
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     {/*to store cake items*/ }
-    const [dessertOrder, setDessertOrder] = useState({
+    const [cupcakeOrder, setCupcakeOrder] = useState({
         event: "",
         theme: "",
         item: "",
         flavour: "",
+        cupcakeNo:"",
         date: "",
         time: "",
         location: "",
@@ -26,7 +26,7 @@ export default function OrderDessert() {
     })
     const inputChange = (event) => {
         const { name, value } = event.target
-        setDessertOrder({ ...dessertOrder, [name]: value })
+        setCupcakeOrder({ ...cupcakeOrder, [name]: value })
     }
     const [validated, setValidated] = useState(false);
 
@@ -35,7 +35,7 @@ export default function OrderDessert() {
         const form = event.currentTarget;
         if (form.checkValidity() === true) {
             event.stopPropagation();
-            axios.post("http://localhost:4000/order/dessert", dessertOrder).then((response) => {
+            axios.post("http://localhost:4000/order/cupcake", cupcakeOrder).then((response) => {
                 console.log(response);
             })
         }
@@ -43,22 +43,22 @@ export default function OrderDessert() {
         setValidated(true);
     };
     useEffect(() => {
-        axios.get("http://localhost:4000/order/view-dessert")
+        axios.get("http://localhost:4000/order/view-cupcake")
             .then((response) => {
                 console.log(response);
                 const details = response.data.details;
-                setGetAddDessert(details)
+                setGetAddCupcake(details)
 
             })
     }, [])
     const [flip, setFlip] = useState({
         index:''
     });
-    return (
-        <>
-            <Breadcrumb style={{ marginTop: 150 }}>
+  return (
+    <>
+ <Breadcrumb style={{ marginTop: 150 }}>
                 <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-                <Breadcrumb.Item href="/add-dessert">
+                <Breadcrumb.Item href="/add-cupcake">
                     Add&Delete
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>Data</Breadcrumb.Item>
@@ -66,7 +66,7 @@ export default function OrderDessert() {
 
             {/*order card parent div1*/}
             <div className='flex-container'>
-                {getAddDessert.map((data, key) => (
+                {getAddCupcake.map((data, key) => (
                     <>
                         <ReactCardFlip isFlipped={flip.index === key ? true : false}
                             flipDirection="vertical">
@@ -74,7 +74,7 @@ export default function OrderDessert() {
                                 <Card style={{ width: '15rem', marginTop: 50, }}>
                                     <Card.Img variant="top" src={`/upload/${data.image}`} />
                                     <Card.Body>
-                                        <Card.Title style={{ fontFamily: "Dancing script", fontSize: "5vh" }}><b>{data.dessertname}</b></Card.Title>
+                                        <Card.Title style={{ fontFamily: "Dancing script", fontSize: "5vh" }}><b>{data.cupcakename}</b></Card.Title>
                                         <Button variant="dark" onClick={() => setFlip({ index: key })}>For More Details</Button>
                                     </Card.Body>
                                 </Card>
@@ -163,9 +163,18 @@ export default function OrderDessert() {
                             <Row className="mb-3">
                                 <Form.Group as={Col} md="6" controlId="validationCustom03">
                                     <Form.Label className='order-labels'>Flavour</Form.Label>
-                                    <Form.Control onChange={inputChange} name='flavour' type="text" value={getAddDessert.dessertname} required />
+                                    <Form.Control onChange={inputChange} name='flavour' type="text" required />
                                     <Form.Control.Feedback type="invalid">
                                         Sorry this Flavour not available.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Row>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                                    <Form.Label className='order-labels'>No:Cupcake</Form.Label>
+                                    <Form.Control onChange={inputChange} name='cupcakeNo' type="text"  required />
+                                    <Form.Control.Feedback type="invalid">
+                                        Mention the Count.
                                     </Form.Control.Feedback>
                                 </Form.Group>
                             </Row>
@@ -220,6 +229,6 @@ export default function OrderDessert() {
 
             </div>
 
-        </>
-    )
+    </>
+  )
 }
