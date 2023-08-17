@@ -12,6 +12,7 @@ import AddDesert from './pages/Main-section/AddDesert';
 import OrderCupCakePg from './pages/Main-section/OrderCupCakePg';
 import AddCupCake from './pages/Main-section/AddCupCake';
 import BlogPg from './pages/Main-section/BlogPg';
+import ShopPage from './pages/Main-section/ShopPage';
 function App() {
   return (
     <>
@@ -29,6 +30,7 @@ function App() {
           <Route path='/add-dessert' element={<AddDesert/>} />
           <Route path='/order-cupcake' element={<OrderCupCakePg/>} />
           <Route path='/add-cupcake' element={<AddCupCake/>} />
+          <Route path='/shop' element={<ShopPage/>} />
         </Routes>
       </BrowserRouter>
 

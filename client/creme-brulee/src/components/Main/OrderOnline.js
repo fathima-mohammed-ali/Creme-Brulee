@@ -31,17 +31,17 @@ function paginator(items, current_page, per_page_items) {
 
 export default function OrderOnline() {
 
-    const[carrierDetails,setCarrierDetails]=useState([
-             useEffect(() => {
-            axios.get("http://localhost:4000/order/view-cake")
-                .then((response) => {
-                    console.log(response);
-                    const details = response.data.details;
-                    setCarrierDetails(details)
+    const[carrierDetails,setCarrierDetails]=useState([])
 
-                })
-        }, [])
-    ])
+    useEffect(() => {
+        axios.get("http://localhost:4000/order/view-cake")
+            .then((response) => {
+                console.log(response);
+                const details = response.data.details;
+                setCarrierDetails(details)
+
+            })
+    }, [])
       
 console.log(carrierDetails);
     const count = Math.ceil(carrierDetails.length / 3);
@@ -64,7 +64,6 @@ console.log(carrierDetails);
     console.log(checked);
 
 
-    const [getAddCake, setGetAddCake] = useState([])
     {/*to view Modal*/ }
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -102,7 +101,7 @@ console.log(carrierDetails);
     const [flip, setFlip] = useState({
         index: ''
     });
-console.log(paginator(carrierDetails, page, 3).data);
+    console.log(paginator(carrierDetails, page, 3).data);
     return (
         <>
             <Breadcrumb style={{ marginTop: 150 }}>
@@ -274,10 +273,10 @@ console.log(paginator(carrierDetails, page, 3).data);
 
             <Stack spacing={2}>
                 <Pagination
+                sx={{marginTop:20,marginLeft:50}}
                     count={count}
                     page={page}
                     onChange={handleChange}
-                    color="success"
                 />
             </Stack>
 

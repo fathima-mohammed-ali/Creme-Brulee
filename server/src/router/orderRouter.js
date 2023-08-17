@@ -10,6 +10,7 @@ const orderDessertModel = require('../models/orderdessert')
 const cupCakeModel = require('../models/cupCakeModel')
 const orderCupCakeModel = require('../models/orderCupCake')
 const fs = require('fs');
+const path= require('path')
 // getFilesInDirectory();
 // fs.unlink("example_file.txt", (err => {
 //     if (err) console.log(err);
@@ -170,9 +171,9 @@ order.post('/update-cake', upload.single('file'), async (req, res) => {
         console.log(req.body);
         const { cakename, description, ingredients, price,image } = req.body;
         console.log(cakename, description, ingredients, price,image);
-        // const details= await cakeModel.findOne({cakename:cakeName})
+        const details= await cakeModel.findOne({cakename:cakeName})
         // const fileName =details.image
-        // const directoryPath = __basedir + "/resources/static/assets/uploads/";
+        // const directoryPath = path.join(__dirname, '/client/creme-brulee/public/upload');
         // console.log(directoryPath);
         // fs.unlink(directoryPath + fileName, (err) => {
         //     if (err) {
@@ -183,7 +184,7 @@ order.post('/update-cake', upload.single('file'), async (req, res) => {
         // });
 
         const updateItem = await cakeModel.updateMany({ cakename: cakeName },
-            { $set: { cakename, description, ingredients, price } }
+            { $set: { cakename, description, ingredients, price,image } }
 
         );
         console.log(updateItem);
@@ -210,16 +211,17 @@ order.post('/update-cake', upload.single('file'), async (req, res) => {
     }
 })
 
-order.get('/single-view/:cakename', async (req, res) => {
+order.get('/cake-image/:cakename', async (req, res) => {
     try {
-        const name = req.params.cakename
+        const name = req.params.cakename;
         console.log(name);
-        const viewCake = await cakeModel.findOne({ cakename: name })
+        const viewCake = await cakeModel.find({ cakename: name })
         console.log(viewCake);
-        if (viewCake) {
+        if (viewCake.length>0) {
             return res.status(200).json({
                 success: true,
                 error: false,
+                details:viewCake[0],
                 message: "single view"
             })
         }

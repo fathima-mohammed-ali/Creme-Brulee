@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from 'react-bootstrap';
+import { store } from './components/features/Store';
+import { Provider } from 'react-redux'
 
 
 
@@ -15,7 +17,10 @@ root.render(
   breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
   minBreakpoint="xxs"
 >
-   <App/>
+  <Provider store={store}>
+    <App/>
+  </Provider>
+   
    </ThemeProvider>
   </React.StrictMode>
 );

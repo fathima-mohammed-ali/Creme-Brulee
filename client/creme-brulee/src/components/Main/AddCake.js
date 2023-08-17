@@ -12,11 +12,30 @@ export default function AddCake() {
     const [DeleteCake, setDeleteCake] = useState({
         cakename: "",
     })
+   
+    const [fileURL, setFileURL] = useState(null);
+    console.log(fileURL);
+    const [cakename, setCakename] = useState('');
     const remove = (event) => {
         const { name, value } = event.target
         setDeleteCake({ ...DeleteCake, [name]: value })
         setUpdateData({...updateData, oldcakename: value})
+        setCakename(value)    
     }
+    useEffect(() => {
+      if(cakename!=''){
+        axios.get(`http://localhost:4000/order/cake-image/${cakename}`)
+        .then((response) => {
+            console.log(response);
+            const details = response.data.details.image; 
+              setFileURL(details)
+
+        }).catch((err)=>{
+            console.log(err);
+        })
+      }
+    }, [cakename])
+
     const [updateData, setUpdateData] = useState({
         oldcakename:"",
         cakename: "",
@@ -44,7 +63,7 @@ export default function AddCake() {
     }
     const [validated, setValidated] = useState(false);
 
-    const submitNew = () => {
+    const submitNew = () => {   
         const data = new FormData();
         const filename = file.name
         data.append("name", filename)
@@ -57,8 +76,12 @@ export default function AddCake() {
         data.append("image", updateData.image)
         axios.post(`http://localhost:4000/order/update-cake`,data).then((response) => {
             console.log(response);
-            const details = response.data.details
+            if (fileURL) {
+                URL.revokeObjectURL(fileURL);
+                setFileURL(null);
+              }
         })
+    
     }
     const deleteSubmit = () => {
         axios.post(`http://localhost:4000/order/delete-cake`, DeleteCake).then((response) => {

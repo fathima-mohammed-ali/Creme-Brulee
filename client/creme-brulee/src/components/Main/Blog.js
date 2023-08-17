@@ -3,7 +3,7 @@ import './Main.css'
 import { Button } from 'react-bootstrap'
 import Carousel from 'react-bootstrap/Carousel';
 import Avatar from '@mui/material/Avatar';
-import { Facebook, YouTube, Pinterest, Twitter, Instagram } from '@mui/icons-material';
+import { Facebook, YouTube, Pinterest, Twitter, Instagram, Cake } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
     export default function Blog() {
     const [index, setIndex] = useState(0);
@@ -44,9 +44,9 @@ import { Link } from 'react-router-dom';
                     </div>
                     <div className='col-lg-9'>
                         <img style={{ width: 800, marginTop: 100, marginLeft: 50 }} src='https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/blog-single-img-1.jpg' className='img-fluid'></img>
-                        <h4 style={{ fontFamily: "Times new roman", marginTop: 50, fontSize: "2.5vh" }} className='text-white text-center'>JANUARY 26, 2021 SPECIALITIES</h4>
+                        <h4 style={{ fontFamily: "Times new roman", marginTop: 50, fontSize: "2.5vh" }} className='text-white text-center'>JANUARY 26, 2023 SPECIALITIES</h4>
                         <h1 style={{ fontFamily: "Times new roman", marginTop: 20, fontSize: "6vh" }} className='text-white text-center'>TRADITION IN EVERY DELICACY EVER</h1>
-                        <p id='creation-para' style={{ color: "white", fontFamily: "cursive", fontSize: "2.5vh", marginBottom: 100 }} className='text-white'>Lorem ipsum dolor sit amet, novum temporibus ea sea, explicari voluptaria an vim. In has adhuc audire. Quot recteque pro ex. Per at lorem possit aliquando, tantas dissentiunt sit ad, ei posse dissentias eum. No liber facilisi quo, ad vis elit solum nonumes. At ius dico erant elaboraret, id possim vocent omittantur mei, usu dicunt nostrud accusam ex. Vero graecis ei per, ut per aliquip percipit. In mei assum singulis, persius patrioque te vim, qui etiam epicuri ex. Sit mentitum electram temporibus ut. Ex fugit soluta graeco vim. Ad duo facer melius alterum. Id vis indoctum assentior, augue dicit theophrastus ad ius. Mei albucius erroribus ocurreret ne, vix evertitur.</p>
+                        <p id='creation-para' style={{ color: "white", fontFamily: "cursive", fontSize: "2.5vh", marginBottom: 100,marginLeft:50 }} className='text-white text-start'>Lorem ipsum dolor sit amet, novum temporibus ea sea, explicari voluptaria an vim. In has adhuc audire. Quot recteque pro ex. Per at lorem possit aliquando, tantas dissentiunt sit ad, ei posse dissentias eum. No liber facilisi quo, ad vis elit solum nonumes. At ius dico erant elaboraret, id possim vocent omittantur mei, usu dicunt nostrud accusam ex. Vero graecis ei per, ut per aliquip percipit. In mei assum singulis, persius patrioque te vim, qui etiam epicuri ex. Sit mentitum electram temporibus ut. Ex fugit soluta graeco vim. Ad duo facer melius alterum. Id vis indoctum assentior, augue dicit theophrastus ad ius. Mei albucius erroribus ocurreret ne, vix evertitur.</p>
                         <div className='border col-lg-9'>
                             <h3 style={{fontFamily:"dancing of script",fontSize:"8vh",marginTop:40}} className='text-center'><p  style={{fontFamily:"dancing of script",fontSize:"12vh"}} className='text-center'>"</p>LOREM IPSUM DOLOR SIT AMET,<br/> CONSECTE ADIPISCING ELIT SED</h3>
                             <h6 style={{fontFamily:"monospace",fontSize:"3vh"}} className='text-center pt-3'>Jean-Luc Boulay</h6>
@@ -80,6 +80,21 @@ import { Link } from 'react-router-dom';
                             </Carousel.Item>
                         </Carousel>
                     </div>
+                    <div className='col-lg-9'>
+                    <h4 style={{ fontFamily: "Times new roman", marginTop: 50, fontSize: "2.5vh" }} className='text-white text-center'>JANUARY 28, 2023 SPECIALITIES</h4> 
+                    <h1 style={{ fontFamily: "Times new roman", marginTop: 20, fontSize: "6vh" }} className='text-white text-center'>SUPREME COCOA FLAVOUR</h1>
+                    <p id='creation-para' style={{ color: "white", fontFamily: "cursive", fontSize: "2.5vh", marginBottom: 100,marginLeft:50 }} className='text-white text-start'>Lorem ipsum dolor sit amet, novum temporibus ea sea, explicari voluptaria an vim. In has adhuc audire. Quot recteque pro ex. Per at lorem possit aliquando, tantas dissentiunt sit ad, ei posse dissentias eum. No liber facilisi quo, ad vis elit solum nonumes. At ius dico erant elaboraret, id possim vocent omittantur mei, usu dicunt nostrud accusam ex. Vero graecis ei per, ut per aliquip percipit. In mei assum singulis, persius patrioque te vim, qui etiam epicuri ex. Sit mentitum electram temporibus ut. Ex fugit soluta graeco vim. Ad duo facer melius alterum. Id vis indoctum assentior, augue dicit theophrastus ad ius. Mei albucius erroribus ocurreret ne, vix evertitur.</p>
+                    </div>
+                    <div className='border col-lg-9'>
+                            <h3 style={{fontFamily:"dancing of script",fontSize:"8vh",marginTop:40}} className='text-center'><Cake style={{fontSize:50}}/><p  style={{fontFamily:"dancing of script",fontSize:"12vh"}} className='text-center'></p>LOREM IPSUM DOLOR SIT AMET,<br/> CONSECTE ADIPISCING ELIT SED</h3>
+                            <h6 style={{fontFamily:"monospace",fontSize:"3vh"}} className='text-center pt-3'>Jean-Luc Boulay</h6>
+                        </div>
+                        <div className='col-lg-9'>
+                        <img style={{ width: 800, marginTop: 100, marginLeft: 50 }} src='https://swissdelight.qodeinteractive.com/wp-content/uploads/2021/02/blog-single-img-5.jpg' className='img-fluid'></img>
+                        <h4 style={{ fontFamily: "Times new roman", marginTop: 50, fontSize: "2.5vh" }} className='text-white text-center'>JANUARY 29, 2023 SPECIALITIES</h4>
+                        <h1 style={{ fontFamily: "Times new roman", marginTop: 20, fontSize: "6vh" }} className='text-white text-center'>BROWNIES TO DIE FOR</h1>
+                        <p id='creation-para' style={{ color: "white", fontFamily: "cursive", fontSize: "2.5vh", marginBottom: 100,marginLeft:50 }} className='text-white text-start'>Lorem ipsum dolor sit amet, novum temporibus ea sea, explicari voluptaria an vim. In has adhuc audire. Quot recteque pro ex. Per at lorem possit aliquando, tantas dissentiunt sit ad, ei posse dissentias eum. No liber facilisi quo, ad vis elit solum nonumes. At ius dico erant elaboraret, id possim vocent omittantur mei, usu dicunt nostrud accusam ex. Vero graecis ei per, ut per aliquip percipit. In mei assum singulis, persius patrioque te vim, qui etiam epicuri ex. Sit mentitum electram temporibus ut. Ex fugit soluta graeco vim. Ad duo facer melius alterum. Id vis indoctum assentior, augue dicit theophrastus ad ius. Mei albucius erroribus ocurreret ne, vix evertitur.</p>
+                       </div>
                 </div>
             </>
         )

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const register = require('./src/router/registerRouter')
 const login = require('./src/router/loginRouter');
 const order = require('./src/router/orderRouter');
+
 const app= express()
 
 app.use(bodyParser())
@@ -19,6 +20,7 @@ app.use(function (req, res, next) {
 app.use('/register',register)
 app.use('/login',login)
 app.use('/order',order)
+
 
 
 const  MONGODB_URL ='mongodb+srv://fathimama104:fathimama@cluster0.4hg9k1c.mongodb.net/cremebrulee?retryWrites=true&w=majority'

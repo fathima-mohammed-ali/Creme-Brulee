@@ -3,11 +3,33 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ReactCardFlip from "react-card-flip";
 import Modal from 'react-bootstrap/Modal';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import { Row, Form, Col, Breadcrumb } from 'react-bootstrap'
 import axios from 'axios';
 import './Main.css'
+
+function paginator(items, current_page, per_page_items) {
+    let page = current_page || 1,
+        per_page = per_page_items,
+        offset = (page - 1) * per_page,
+        paginatedItems = items.slice(offset).slice(0, per_page_items),
+        total_pages = Math.ceil(items.length / per_page);
+    console.log();
+
+    return {
+        page: page,
+        per_page: per_page,
+        pre_page: page - 1 ? page - 1 : null,
+        next_page: total_pages > page ? page + 1 : null,
+        total: items.length,
+        total_pages: total_pages,
+        data: paginatedItems
+    };
+
+}
 export default function OrderCupcake() {
-    const [getAddCupcake, setGetAddCupcake] = useState([])
+    const[carrierDetails,setCarrierDetails]=useState([])
     {/*to view Modal*/ }
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -47,10 +69,30 @@ export default function OrderCupcake() {
             .then((response) => {
                 console.log(response);
                 const details = response.data.details;
-                setGetAddCupcake(details)
+                setCarrierDetails(details)
 
             })
     }, [])
+    console.log(carrierDetails);
+    const count = Math.ceil(carrierDetails.length / 3);
+    console.log(count);
+    const [page, setPage] = useState(1);
+    const handleChange = (event, value) => {
+        setPage(paginator(carrierDetails, value, 3).page);
+    };
+    const [checked, setChecked] = React.useState([]);
+    const handleOnChange = (e, index) => {
+        let prev = checked;
+        let itemIndex = prev.indexOf(index);
+        if (itemIndex !== -1) {
+            prev.splice(itemIndex, 1);
+        } else {
+            prev.push(index);
+        }
+        setChecked([...prev]);
+    };
+    console.log(checked);
+
     const [flip, setFlip] = useState({
         index:''
     });
@@ -66,16 +108,17 @@ export default function OrderCupcake() {
 
             {/*order card parent div1*/}
             <div className='flex-container'>
-                {getAddCupcake.map((data, key) => (
+            {paginator(carrierDetails, page, 6).data.map((data, index) => (
                     <>
-                        <ReactCardFlip isFlipped={flip.index === key ? true : false}
+                        <ReactCardFlip isFlipped={flip.index === index ? true : false}
                             flipDirection="vertical">
                             <div className='card-one'>
-                                <Card style={{ width: '15rem', marginTop: 50, }}>
+                                <Card style={{ width: '15rem', marginTop: 50, }}
+                                divider={index < carrierDetails.length - 1}>
                                     <Card.Img variant="top" src={`/upload/${data.image}`} />
                                     <Card.Body>
                                         <Card.Title style={{ fontFamily: "Dancing script", fontSize: "5vh" }}><b>{data.cupcakename}</b></Card.Title>
-                                        <Button variant="dark" onClick={() => setFlip({ index: key })}>For More Details</Button>
+                                        <Button variant="dark" onClick={() => setFlip({ index: index })}>For More Details</Button>
                                     </Card.Body>
                                 </Card>
                             </div>
@@ -228,7 +271,14 @@ export default function OrderCupcake() {
 
 
             </div>
-
+            <Stack spacing={2}>
+                <Pagination
+                sx={{marginTop:20,marginLeft:50}}
+                    count={count}
+                    page={page}
+                    onChange={handleChange}
+                />
+            </Stack>
     </>
   )
 }

@@ -1,19 +1,46 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Box, Slider, Button } from '@mui/material';
 import './Main.css'
 import { Facebook, Twitter, Pinterest, YouTube } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+
+
 function valuetext(value) {
-    return `${value}`;
+    
 }
 
 export default function Sidebar() {
-    const [minPrice, setMinPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(100);
+    const [filterValues,setFilterValues] = useState([])
+    const [minPrice, setMinPrice] = useState(20); // Initial min price
+    const [maxPrice, setMaxPrice] = useState(80); // Initial max price
+  
+
+    const handleMinPriceChange = (event, newMinPrice) => {
+        setMinPrice(newMinPrice);
+      };
+    
+      const handleMaxPriceChange = (event, newMaxPrice) => {
+        setMaxPrice(newMaxPrice);
+      };
+
+    // const dispatch = useDispatch();
+    // const { minPrice, maxPrice } = useSelector((state) => state.priceFilter);
     // const [value, setValue] = useState([20, 37])
     // const handleChange = (event, newValue) => {
         // setValue(newValue);
     // };
+
+ 
+// useEffect(() => {
+    axios.get("http://localhost:4000/cake-price-filter").then((response)=>{
+        console.log(response);
+        const filterData=response.data.details;
+        setFilterValues(filterData)
+    
+    })
+// }, [])
     return (
         <>
             <div className='sidebar'>
@@ -39,15 +66,15 @@ export default function Sidebar() {
                         value={[minPrice,maxPrice]}
                         size='small'
                         onChange={(event, newValue) => {
-                            setMinPrice(newValue[0]);
-                            setMaxPrice(newValue[1]);
+                            handleMinPriceChange(event, newValue[0]);
+                            handleMaxPriceChange(event, newValue[1]);
                           }}
                         valueLabelDisplay="auto"
                         getAriaValueText={valuetext}
                         min={0}
                         max={100}
                     />
-                    <label id='price'>Price: min ${minPrice}- max ${maxPrice}</label><br />
+                    <label id='price'>Price: min ${0}- max ${100}</label><br />
                     <Button id='filter-btn' sx={{ backgroundColor: 'black', color: 'white', marginLeft: 12, marginTop: 2, width: '100px' }}>Filter</Button>
                 </Box>
                 <h2 id='sidebar-follow'>Follow Us</h2>
