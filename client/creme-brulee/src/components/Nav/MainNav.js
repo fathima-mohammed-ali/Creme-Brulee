@@ -71,16 +71,16 @@ const[userInfo,setUserInfo]= useState({
         <Container className='flex-navContainer'>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Navbar.Brand id='home-bar' href="/">Home</Navbar.Brand>
-            <Navbar.Brand id='portfolio-bar' href="/profile">Portfolio</Navbar.Brand>
+          <Navbar.Brand id='home-bar' href="/">Home</Navbar.Brand>
+            <Navbar.Brand id='portfolio-bar' href="/portfolio">Portfolio</Navbar.Brand>
             <Navbar.Brand id='blog-bar' href="/blog" >Blog</Navbar.Brand>
             <Navbar.Brand id='shop-bar' href="/shop">Shop</Navbar.Brand>
           </Navbar.Collapse>
           <Navbar.Text className='navText-style'>Creme Brulee</Navbar.Text>
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Navbar.Brand id='order-bar' href="/order-cake">Order Online</Navbar.Brand>
+            <Navbar.Brand id='order-bar' href="/order-online">Order Online</Navbar.Brand>
             <Navbar.Brand id='login-bar' onClick={handleShow}>Login<AccountCircleOutlinedIcon style={{ marginLeft: 10, marginBottom: 3 }} /></Navbar.Brand>
-            <Navbar.Brand id='cart-bar' href="/">Cart<i class="fi fi-ss-shopping-cart"></i></Navbar.Brand>
+            <Navbar.Brand id='cart-bar' href="/cart">Cart<i class="fi fi-ss-shopping-cart"></i></Navbar.Brand>
           </Navbar.Collapse>
         </Container>
       </Navbar>

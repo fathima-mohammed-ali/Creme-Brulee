@@ -1,44 +1,45 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Row, Col, Button, InputGroup, Modal,Dropdown,Breadcrumb } from 'react-bootstrap';
+import { Form, Row, Col, Button, InputGroup, Modal, Dropdown, Breadcrumb } from 'react-bootstrap';
 import './Main.css'
 import axios from 'axios'
 import { TextField } from '@mui/material';
-export default function AddCake() {
+export default function AddProduct() {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [DeleteCake, setDeleteCake] = useState({
-        cakename: "",
+    const [DeleteProduct, setDeleteProduct] = useState({
+        itemName: "",
     })
-   
+
     const [fileURL, setFileURL] = useState(null);
     console.log(fileURL);
-    const [cakename, setCakename] = useState('');
+    const [productname, setProductname] = useState('');
     const remove = (event) => {
         const { name, value } = event.target
-        setDeleteCake({ ...DeleteCake, [name]: value })
-        setUpdateData({...updateData, oldcakename: value})
-        setCakename(value)    
+        setDeleteProduct({ ...DeleteProduct, [name]: value })
+        setUpdateData({ ...updateData, olditemName: value })
+        setProductname(value)
     }
     useEffect(() => {
-      if(cakename!=''){
-        axios.get(`http://localhost:4000/order/cake-image/${cakename}`)
-        .then((response) => {
-            console.log(response);
-            const details = response.data.details.image; 
-              setFileURL(details)
+        if (productname != '') {
+            axios.get(`http://localhost:4000/order/product-image/${productname}`)
+                .then((response) => {
+                    console.log(response);
+                    const details = response.data.details.image;
+                    setFileURL(details)
 
-        }).catch((err)=>{
-            console.log(err);
-        })
-      }
-    }, [cakename])
+                }).catch((err) => {
+                    console.log(err);
+                })
+        }
+    }, [productname])
 
     const [updateData, setUpdateData] = useState({
-        oldcakename:"",
-        cakename: "",
+        category:"",
+        olditemName: "",
+        itemName: "",
         description: "",
         ingredients: "",
         price: "",
@@ -46,8 +47,9 @@ export default function AddCake() {
     })
 
     const [file, setfile] = useState('')
-    const [addCake, setAddcake] = useState({
-        cakename: "",
+    const [addProduct, setAddProduct] = useState({
+        category: "",
+        itemName: "",
         description: "",
         ingredients: "",
         price: "",
@@ -55,7 +57,7 @@ export default function AddCake() {
     })
     const inputChange = (event) => {
         const { name, value } = event.target
-        setAddcake({ ...addCake, [name]: value })
+        setAddProduct({ ...addProduct, [name]: value })
     }
     const updateChange = (event) => {
         const { name, value } = event.target
@@ -63,28 +65,29 @@ export default function AddCake() {
     }
     const [validated, setValidated] = useState(false);
 
-    const submitNew = () => {   
+    const submitNew = () => {
         const data = new FormData();
         const filename = file.name
         data.append("name", filename)
         data.append("file", file)
-        data.append("oldcakename",updateData.oldcakename)
-        data.append("cakename", updateData.cakename)
+        data.append("category", updateData.category)
+        data.append("olditemName", updateData.olditemName)
+        data.append("itemName", updateData.itemName)
         data.append("description", updateData.description)
         data.append("ingredients", updateData.ingredients)
         data.append("price", updateData.price)
         data.append("image", updateData.image)
-        axios.post(`http://localhost:4000/order/update-cake`,data).then((response) => {
+        axios.post(`http://localhost:4000/order/update-product`, data).then((response) => {
             console.log(response);
             if (fileURL) {
                 URL.revokeObjectURL(fileURL);
                 setFileURL(null);
-              }
+            }
         })
-    
+
     }
     const deleteSubmit = () => {
-        axios.post(`http://localhost:4000/order/delete-cake`, DeleteCake).then((response) => {
+        axios.post(`http://localhost:4000/order/delete-product`, DeleteProduct).then((response) => {
             console.log(response);
         })
     }
@@ -98,12 +101,13 @@ export default function AddCake() {
             const filename = file.name
             data.append("name", filename)
             data.append("file", file)
-            data.append("cakename", addCake.cakename)
-            data.append("description", addCake.description)
-            data.append("ingredients", addCake.ingredients)
-            data.append("price", addCake.price)
-            data.append("image", addCake.image)
-            axios.post('http://localhost:4000/order/cake-details', data).then((response) => {
+            data.append("category", addProduct.category)
+            data.append("itemName", addProduct.itemName)
+            data.append("description", addProduct.description)
+            data.append("ingredients", addProduct.ingredients)
+            data.append("price", addProduct.price)
+            data.append("image", addProduct.image)
+            axios.post('http://localhost:4000/order/product-details', data).then((response) => {
                 console.log(response);
             })
         }
@@ -111,18 +115,27 @@ export default function AddCake() {
     }
     return (
         <>
-         <Breadcrumb style={{ marginTop: 150 }}>
+            <Breadcrumb style={{ marginTop: 150 }}>
                 <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-                <Breadcrumb.Item href="/order-cake">
+                <Breadcrumb.Item href="/order-online">
                     Back to Page
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>Data</Breadcrumb.Item>
             </Breadcrumb>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">
+                    <Form.Select className='cakename' onChange={inputChange} name='category' aria-label="Default select example">
+                        <option >Choose Category</option>
+                        <option   value="cake">Cake</option>
+                        <option   value="donut">Donut</option>
+                        <option  value="dessert">Dessert</option>
+                        <option  value="cupcake">Cupcake</option>
+                    </Form.Select>
+                </Row>
+                <Row className="mb-3">
                     <InputGroup className='cakename'>
-                        <InputGroup.Text>Cake Name/Flavour</InputGroup.Text>
-                        <Form.Control onChange={inputChange} name='cakename' type="text" required placeholder="eg:Spanish Delight" />
+                        <InputGroup.Text> Name/Flavour</InputGroup.Text>
+                        <Form.Control onChange={inputChange} name='itemName' type="text" required placeholder="eg:Spanish Delight" />
                     </InputGroup>
                 </Row>
                 <Row className="mb-3">
@@ -158,7 +171,7 @@ export default function AddCake() {
                 <Row className="mb-3">
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Label>Default file input example</Form.Label>
-                        <Form.Control onChange={(e) => { e.preventDefault(); setAddcake({ ...addCake, image: e.target.files[0].name }); setfile(e.target.files[0]); }} type="file" />
+                        <Form.Control onChange={(e) => { e.preventDefault(); setAddProduct({ ...addProduct, image: e.target.files[0].name }); setfile(e.target.files[0]); }} type="file" />
                     </Form.Group>
                 </Row>
                 <Button type='submit' variant="primary">
@@ -167,25 +180,43 @@ export default function AddCake() {
             </Form >
 
             <Form>
-                  <Row className="mb-3">
+                {/* <Row className="mb-3">
                     <InputGroup className='cakename'>
-                        <InputGroup.Text>Cake Name/Flavour</InputGroup.Text>
+                        <InputGroup.Text>Name/Flavour</InputGroup.Text>
                         <Form.Control onChange={remove} name='cakename' type="text" required placeholder="eg:Spanish Delight" />
-                    </InputGroup>
-                    {/* <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Choose a Cake
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Choco Nut</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Spanish Delight</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Chocalate Truffle</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Red Velvet</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Toffee</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown> */}
-                </Row> 
+                    </InputGroup> */}
+                     <Row className="mb-3">
+                    <Form.Select onChange={remove} name='itemName' className='cakename' aria-label="Default select example">
+                        <option>Choose Product Name</option>
+                        <option value="Spanish Delight">Spanish Delight</option>
+                        <option value="Success Praline">Success Praline</option>
+                        <option value="Sugar Coat Pancake">Sugar Coat Pancake</option>
+                        <option value="Glazed Donut">Glazed Donut</option>
+                        <option value="Red Velvet">Red Velvet</option>
+                        <option value="Macron Special">Macron Special</option>
+                        <option value="Mount Minty">Mount Minty</option>
+                        <option value="Carre Chocalate">Carre Chocalate</option>
+                        <option value="Chocalate Triffle">Chocalate Triffle</option>
+                        <option value="Chocalate Truffle">Chocalate Truffle</option>
+                        <option value="Chocalate Fill">Chocalate Fill</option>
+                        <option value="Choco Nut">Choco Nut</option>
+                        <option value="Choco Rich">Choco Rich</option>
+                        <option value="BostonCreme">BostonCreme</option>
+                        <option value="Brownie">Brownie</option>
+                        <option value="BlueBerry">BlueBerry</option>
+                        <option value="BlackForest">BlackForest</option>
+                        <option value="Vanilla Princess">Vanilla Princess</option>
+                        <option value="Vanilla Cupcake">Vanilla Cupcake</option>
+                        <option value="Pista Sweet">Pista Sweet</option>
+                        <option value="Strawberry Frost">Strawberry Frost</option>
+                        <option value="Sprinkles Dunkin">Sprinkles Dunkin</option>
+                        <option value="Sprinkles Chocalate">Sprinkles Chocalate</option>
+                        <option value="Berry Cake">Berry Cake</option>
+                        <option value="Toffee">Toffee</option>
+                        <option value="test">test</option>
+                    </Form.Select>
+                   
+                </Row>
                 <Button variant="primary" onClick={deleteSubmit}>
                     Delete
                 </Button>&nbsp;&nbsp;
@@ -199,7 +230,8 @@ export default function AddCake() {
                     <Modal.Title>Update Cake</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <TextField onChange={updateChange} sx={{ marginBottom: 2 }} label='Cake Flavour' name='cakename' ></TextField>
+                    <TextField onChange={updateChange} sx={{ marginBottom: 2 }} label='Category' name='category' ></TextField>
+                    <TextField onChange={updateChange} sx={{ marginBottom: 2 }} label='Flavour' name='itemName' ></TextField>
                     <TextField onChange={updateChange} sx={{ marginBottom: 2, marginLeft: 2 }} label='Description' name='description'></TextField>
                     <TextField onChange={updateChange} sx={{ marginBottom: 2 }} label='Ingredeints' name='ingredients'></TextField>
                     <TextField onChange={updateChange} sx={{ marginBottom: 2, marginLeft: 2 }} label='Price' name='price'></TextField>

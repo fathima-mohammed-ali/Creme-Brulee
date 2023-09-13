@@ -1,16 +1,10 @@
 const express = require('express')
-const orderModel = require('../models/orderModel')
-const cakeModel = require('../models/cakeModel')
 const order = express.Router()
 const multer = require('multer')
-const donutModel = require('../models/donutModel')
-const orderDonutModel = require('../models/ordrdonut')
-const dessertModel = require('../models/dessertModal')
-const orderDessertModel = require('../models/orderdessert')
-const cupCakeModel = require('../models/cupCakeModel')
-const orderCupCakeModel = require('../models/orderCupCake')
 const fs = require('fs');
 const path= require('path')
+const productModel = require('../models/productModel');
+const { log } = require('console');
 // getFilesInDirectory();
 // fs.unlink("example_file.txt", (err => {
 //     if (err) console.log(err);
@@ -39,65 +33,31 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-order.post('/cake', async (req, res) => {
+order.post('/product-details', upload.single('file'), async (req, res) => {
     try {
-        const cakeOrder = {
-            event: req.body.event,
-            theme: req.body.theme,
-            kg: req.body.kg,
-            flavour: req.body.flavour,
-            date: req.body.date,
-            time: req.body.time,
-            location: req.body.location,
-            contact: req.body.contact,
-        }
-        const order = await orderModel(cakeOrder).save()
-        if (order) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                message: "order received"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "order not received"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: true,
-            error: false,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.post('/cake-details', upload.single('file'), async (req, res) => {
-    try {
-        const cakedetails = {
-            cakename: req.body.cakename,
+        const productdetails = {
+            category:req.body.category,
+            itemName: req.body.itemName,
             description: req.body.description,
             ingredients: req.body.ingredients,
+            product_available:req.body.product_available,
             price: req.body.price,
             image: req.body.image,
         }
-        const saveCake = await cakeModel(cakedetails).save()
-        if (saveCake) {
+        const saveProduct = await productModel(productdetails).save()
+        if (saveProduct) {
             return res.status(200).json({
                 success: true,
                 error: false,
-                details: saveCake,
-                message: "cake details saved"
+                details: saveProduct,
+                message: "Product details saved"
             })
         }
         else {
             return res.status(404).json({
                 success: false,
                 error: true,
-                message: "cake details missing"
+                message: "Product details missing"
             })
         }
     } catch (error) {
@@ -109,15 +69,15 @@ order.post('/cake-details', upload.single('file'), async (req, res) => {
     }
 })
 
-order.get('/view-cake', async (req, res) => {
+order.get('/view-product', async (req, res) => {
     try {
         const id = req.params._id
-        const viewCake = await cakeModel.find(id)
-        if (viewCake) {
+        const viewProduct = await productModel.find(id)
+        if (viewProduct) {
             return res.status(200).json({
                 success: true,
                 error: false,
-                details: viewCake,
+                details: viewProduct,
                 message: "ready to view"
             })
         }
@@ -137,12 +97,12 @@ order.get('/view-cake', async (req, res) => {
     }
 })
 
-order.post('/delete-cake', async (req, res) => {
+order.post('/delete-product', async (req, res) => {
     try {
-        const name = req.body.cakename
-        const deletecake = await cakeModel.deleteOne({ cakename: name })
-        console.log(deletecake);
-        if (deletecake.deletedCount == 1) {
+        const name = req.body.itemName
+        const deleteProduct = await productModel.deleteOne({ itemName: name })
+        console.log(deleteProduct);
+        if (deleteProduct.deletedCount == 1) {
             return res.status(200).json({
                 success: true,
                 error: false,
@@ -165,13 +125,13 @@ order.post('/delete-cake', async (req, res) => {
     }
 })
 
-order.post('/update-cake', upload.single('file'), async (req, res) => {
+order.post('/update-product', upload.single('file'), async (req, res) => {
     try {
-        const cakeName = req.body.oldcakename
+        const productName = req.body.olditemName
         console.log(req.body);
-        const { cakename, description, ingredients, price,image } = req.body;
-        console.log(cakename, description, ingredients, price,image);
-        const details= await cakeModel.findOne({cakename:cakeName})
+        const { category,itemName, description, ingredients, price,product_available,image } = req.body;
+        console.log(category,itemName, description, ingredients, price,product_available,image);
+        const details= await productModel.findOne({olditemName:productName})
         // const fileName =details.image
         // const directoryPath = path.join(__dirname, '/client/creme-brulee/public/upload');
         // console.log(directoryPath);
@@ -183,8 +143,8 @@ order.post('/update-cake', upload.single('file'), async (req, res) => {
         //     console.log("Delete File successfully.");
         // });
 
-        const updateItem = await cakeModel.updateMany({ cakename: cakeName },
-            { $set: { cakename, description, ingredients, price,image } }
+        const updateItem = await productModel.updateMany({itemName: productName },
+            { $set: { category,itemName, description, ingredients, price,product_available,image } }
 
         );
         console.log(updateItem);
@@ -211,17 +171,17 @@ order.post('/update-cake', upload.single('file'), async (req, res) => {
     }
 })
 
-order.get('/cake-image/:cakename', async (req, res) => {
+order.get('/product-image/:name', async (req, res) => {
     try {
-        const name = req.params.cakename;
-        console.log(name);
-        const viewCake = await cakeModel.find({ cakename: name })
-        console.log(viewCake);
-        if (viewCake.length>0) {
+        const productName = req.params.name;
+        console.log(productName);
+        const viewProduct = await productModel.find({ name: productName })
+        console.log(viewProduct);
+        if (viewProduct.length>0) {
             return res.status(200).json({
                 success: true,
                 error: false,
-                details:viewCake[0],
+                details:viewProduct[0],
                 message: "single view"
             })
         }
@@ -241,515 +201,29 @@ order.get('/cake-image/:cakename', async (req, res) => {
     }
 })
 
-order.post('/donut', async (req, res) => {
-    try {
-        const donutOrder = {
-            event: req.body.event,
-            theme: req.body.theme,
-            pieces: req.body.pieces,
-            flavour: req.body.flavour,
-            date: req.body.date,
-            time: req.body.time,
-            location: req.body.location,
-            contact: req.body.contact,
-        }
-        const order = await orderDonutModel(donutOrder).save()
-        if (order) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                message: "order received"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "order not received"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: true,
-            error: false,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.post('/donut-details', upload.single('file'), async (req, res) => {
-    try {
-        const donutdetails = {
-            donutname: req.body.donutname,
-            description: req.body.description,
-            ingredients: req.body.ingredients,
-            price: req.body.price,
-            image: req.body.image,
-        }
-        // console.log(donutdetails);
-        const saveDonut = await donutModel(donutdetails).save()
-        console.log(saveDonut);
-        if (saveDonut) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                details: saveDonut,
-                message: "donut details saved"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "donut details missing"
-            })
-        }
-    } catch (error) {
-        return res.status(404).json({
-            success: false,
-            error: true,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.get('/view-donut', async (req, res) => {
-    try {
-        const id = req.params._id
-        const viewDonut = await donutModel.find(id)
-        if (viewDonut) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                details: viewDonut,
-                message: "ready to view"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "can't view"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: true,
-            error: false,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.post('/delete-donut', async (req, res) => {
-    try {
-        const name = req.body.donutname
-        const deletedonut = await donutModel.deleteOne({ donutname: name })
-        console.log(deletedonut);
-        if (deletedonut.deletedCount == 1) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                message: "item is deleted"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "item not found"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: false,
-            error: true,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.post('/update-donut/:name', async (req, res) => {
-    try {
-        const donutName = req.params.name
-        console.log(donutName);
-        const { donutname, description, ingredients, price, image } = req.body;
-        console.log(donutname, description, ingredients, price, image);
-
-        const updateItem = await donutModel.updateMany({ donutname: donutName },
-            { $set: { donutname, description, ingredients, price, image } }
-
-        );
-        console.log(updateItem);
-        if (updateItem.modifiedCount == 1) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                details: updateItem,
-                message: "Data Updated"
-            })
-        } else {
-            return res.status(400).json({
-                success: false,
-                error: true,
-                message: "Not Updated"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: true,
-            error: false,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.post('/dessert', async (req, res) => {
-    try {
-        const dessertOrder = {
-            event: req.body.event,
-            theme: req.body.theme,
-            item: req.body.item,
-            flavour: req.body.flavour,
-            date: req.body.date,
-            time: req.body.time,
-            location: req.body.location,
-            contact: req.body.contact,
-        }
-        const order = await orderDessertModel(dessertOrder).save()
-        if (order) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                message: "order received"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "order not received"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: true,
-            error: false,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.post('/dessert-details', upload.single('file'), async (req, res) => {
-    try {
-        const dessertdetails = {
-            dessertname: req.body.dessertname,
-            description: req.body.description,
-            ingredients: req.body.ingredients,
-            price: req.body.price,
-            image: req.body.image,
-        }
-        // console.log(dessertdetails);
-        const saveDessert = await dessertModel(dessertdetails).save()
-        console.log(saveDessert);
-        if (saveDessert) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                details: saveDessert,
-                message: "dessert details saved"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "dessert details missing"
-            })
-        }
-    } catch (error) {
-        return res.status(404).json({
-            success: false,
-            error: true,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.get('/view-dessert', async (req, res) => {
-    try {
-        const id = req.params._id
-        const viewDessert = await dessertModel.find(id)
-        if (viewDessert) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                details: viewDessert,
-                message: "ready to view"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "can't view"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: true,
-            error: false,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.post('/delete-dessert', async (req, res) => {
-    try {
-        const name = req.body.dessertname
-        console.log(name);
-        const deletedessert = await dessertModel.deleteOne({ dessertname: name })
-        console.log(deletedessert);
-        if (deletedessert.deletedCount == 1) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                message: "item is deleted"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "item not found"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: false,
-            error: true,
-            message: "something went wrong"
-        })
-    }
-
-})
-
-order.post('/update-dessert/:name', async (req, res) => {
-    try {
-        const dessertName = req.params.name
-        console.log(dessertName);
-        const { dessertname, description, ingredients, price, image } = req.body;
-        console.log(dessertname, description, ingredients, price, image);
-
-        const updateItem = await dessertModel.updateMany({ dessertname: dessertName },
-            { $set: { dessertname, description, ingredients, price, image } }
-
-        );
-        console.log(updateItem);
-        if (updateItem.modifiedCount == 1) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                details: updateItem,
-                message: "Data Updated"
-            })
-        } else {
-            return res.status(400).json({
-                success: false,
-                error: true,
-                message: "Not Updated"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: true,
-            error: false,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.post('/cupcake', async (req, res) => {
-    try {
-        const cupcakeOrder = {
-            event: req.body.event,
-            theme: req.body.theme,
-            item: req.body.item,
-            flavour: req.body.flavour,
-            cupcakeNo: req.body.cupcakeNo,
-            date: req.body.date,
-            time: req.body.time,
-            location: req.body.location,
-            contact: req.body.contact,
-        }
-        const order = await orderCupCakeModel(cupcakeOrder).save()
-        if (order) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                message: "order received"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "order not received"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: true,
-            error: false,
-            message: "something went wrong"
-        })
-    }
-})
-order.post('/cupcake-details', upload.single('file'), async (req, res) => {
-    try {
-        const cupcakedetails = {
-            cupcakename: req.body.cupcakename,
-            description: req.body.description,
-            ingredients: req.body.ingredients,
-            price: req.body.price,
-            image: req.body.image,
-        }
-        // console.log(dessertdetails);
-        const savecupcake = await cupCakeModel(cupcakedetails).save()
-        console.log(savecupcake);
-        if (savecupcake) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                details: savecupcake,
-                message: "cupcake details saved"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "cupcake details missing"
-            })
-        }
-    } catch (error) {
-        return res.status(404).json({
-            success: false,
-            error: true,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.get('/view-cupcake', async (req, res) => {
-    try {
-        const id = req.params._id
-        const viewCupcake = await cupCakeModel.find(id)
-        if (viewCupcake) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                details: viewCupcake,
-                message: "ready to view"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "can't view"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: true,
-            error: false,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.post('/delete-cupcake', async (req, res) => {
-    try {
-        const name = req.body.cupcakename
-        console.log(name);
-        const deletecupcake = await cupCakeModel.deleteOne({ cupcakename: name })
-        console.log(deletecupcake);
-        if (deletecupcake.deletedCount == 1) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                message: "item is deleted"
-            })
-        }
-        else {
-            return res.status(404).json({
-                success: false,
-                error: true,
-                message: "item not found"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: false,
-            error: true,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.post('/update-cupcake', upload.single('file'), async (req, res) => {
-    try {
-        const toUpdate = req.body.oldcupcakename
-        console.log(req.body);
-        const { cupcakename, description, ingredients, price, image, oldcupcakename } = req.body;
-        console.log(cupcakename, description, ingredients, price, image, oldcupcakename);
-
-        const updateItem = await cupCakeModel.updateMany({ cupcakename: toUpdate },
-            { $set: { cupcakename, description, ingredients, price, image } }
-
-        );
-        console.log(updateItem);
-        if (updateItem.modifiedCount == 1) {
-            return res.status(200).json({
-                success: true,
-                error: false,
-                details: updateItem,
-                message: "Data Updated"
-            })
-        } else {
-            return res.status(400).json({
-                success: false,
-                error: true,
-                message: "Not Updated"
-            })
-        }
-    } catch (error) {
-        return res.status(400).json({
-            success: true,
-            error: false,
-            message: "something went wrong"
-        })
-    }
-})
-
-order.get('/cake-price-filter', async (req, res) => {
+order.get('/price-filter', async (req, res) => {
     try {
         const { minPrice, maxPrice } = req.query
-        const items = await cakeModel.find({ price: { $gte: minPrice, $lte: maxPrice } })
-        if (items) {
+        console.log('Received query:', minPrice, maxPrice);
+        // const items = await productModel.find({price:{$gte:minPrice,$lte:maxPrice}})
+        const items = await productModel.find()
+        // console.log({price:{$gte:minPrice,$lte:maxPrice}});
+        const filteredValue=items.filter(function(x){ return x.price >= parseInt(minPrice) && x.price <= parseInt(maxPrice)});
+        console.log(filteredValue);
+        // const filteredData=filteredValue.filter(function(y){ return y.category === category});
+        if (filteredValue) {
             return res.status(200).json({
                 success: true,
                 error: false,
-                details: items,
-                message: "filter process done"
+                details: filteredValue,
+                message: "filter process is done"
             })
         }
         else {
             return res.status(400).json({
                 success: false,
                 error: true,
-                message: "filter process failed"
+                message: "filter process is failed"
             })
         }
     } catch (error) {
@@ -760,4 +234,36 @@ order.get('/cake-price-filter', async (req, res) => {
         })
     }
 })
+
+
+order.get('/category-filter', async (req, res) => {
+    try {
+        const selectedCategory  = req.query.category
+        console.log(selectedCategory);
+        const products = await productModel.find({ category: selectedCategory });
+        console.log({ category: selectedCategory });
+        if (products.length > 0) {
+            return res.status(200).json({
+                success: true,
+                error: false,
+                details:products,
+                message: "Category filtered",
+            });
+        } else {
+            return res.status(404).json({
+                success: false,
+                error: true,
+                message: "No products found in the selected categories"
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: true,
+            message: "Something went wrong"
+        });
+    }
+});
+
+
 module.exports = order

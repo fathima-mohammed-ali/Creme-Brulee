@@ -1,6 +1,7 @@
 #app {
   height: 100%;
 }
+
 html,
 body {
   position: relative;
@@ -42,158 +43,300 @@ body {
   object-fit: cover;
 }
 
-#footer-style{
-background-color: black; 
-padding-top: 20px;
-padding-left: 250px;
-color: whitesmoke;
+#footer-style {
+  background-color: black;
+  padding-top: 20px;
+  padding-left: 250px;
+  color: whitesmoke;
 }
-.mySwiper{
+
+.mySwiper {
   margin-top: 120px;
 }
-.flex-container{
+
+.flex-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
-#description{
-  font-family: 'Dancing script',cursive;
+
+#description {
+  font-family: 'Dancing script', cursive;
   padding-top: 50px;
   text-decoration-line: underline;
 }
-#ingredients{
-  font-family: 'Dancing script',cursive;
+
+#ingredients {
+  font-family: 'Dancing script', cursive;
   text-decoration-line: underline;
 }
-.sidebar{
-  display: flex;
-  align-items: end;
-  margin-top: 10%;
-  flex-direction: column;
+
+.sidebar {
   overflow-x: hidden;
   overflow-y: hidden;
 }
-#categories{
-  font-family: 'Dancing script',cursive;
-  margin-right: 90px;
+
+#categories {
+  font-family: 'Dancing script', cursive;
 }
-#items{
+
+#items {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 3vh;
   margin-left: 25px;
 }
-#linkItems{
+
+.items {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 3vh;
+  margin-left: 15px;
+  text-decoration-color: none;
+}
+
+#linkItems {
   text-decoration-line: none;
   color: gray;
 }
-#popular-products{
-  font-family: 'Dancing script',cursive;
-  margin-right: 10px; 
+
+#popular-products {
+  font-family: 'Dancing script', cursive;
+}
+
+#price-filter {
+  font-family: 'Dancing script', cursive;
   margin-top: 50px;
 }
-#price-filter{
-  font-family: 'Dancing script',cursive;
-  margin-right: 80px;
-  margin-top: 50px;
-}
-#price{
+
+#price {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 3vh;
-  margin-left: 100px;
+  margin-left: 50px;
   color: gray;
 }
-#filter-btn:hover{
+
+#filter-btn:hover {
   background-color: black;
 }
-#sidebar-follow{
-  font-family: 'Dancing script',cursive;
-  margin-right: 100px;
+
+#sidebar-follow {
+  font-family: 'Dancing script', cursive;
   margin-top: 50px;
 }
-#follow-icons{
-margin-right: 50px;
+
+#follow-icons {
+  margin-left: 50px;
 }
-#tags{
-  font-family: 'Dancing script',cursive;  
-  margin-right: 160px;
-  margin-top:50px ;
+
+#tags {
+  font-family: 'Dancing script', cursive;
+  margin-left: 50px;
+  margin-top: 50px;
 }
-#tag-links{
+
+#tag-links {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: small;
-  color:gray ;
-  
+  color: gray;
+
 }
-#tag-items{
-  color:gray ;
+
+#tag-items {
+  color: gray;
   text-decoration-line: none;
 }
-.cakename{
-  margin-top: 150px;
+
+.cakename {
+  margin-top: 50px;
   width: 500px;
 }
-.descrp{
+
+.descrp {
   width: 475px;
 }
-.price-define{
+
+.price-define {
   width: 480px
 }
-#footer-link{
+
+#footer-link {
   list-style: none;
 }
-#useful-links{
- color:grey;
- text-decoration-line: none; 
- font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
- font-size: 3vh;
- line-height: 30px;
+
+#useful-links {
+  color: grey;
+  text-decoration-line: none;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 3vh;
+  line-height: 30px;
 }
-#footer-para{
-  color:grey; 
+
+#footer-para {
+  color: grey;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 3vh;
 }
-.child-four{
+
+.child-four {
   margin-left: 60px;
 }
-.child-one{
+
+.child-one {
   margin-top: 100px;
 }
-#footer-icons{
+.child-three{
+margin-right: 30px;
+}
+#footer-icons {
   margin-top: 20px;
 }
-#order-pagination{
+
+#order-pagination {
   margin-top: 150px;
   margin-left: 400px;
 }
-.blog{
+
+.blog {
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-around; */
 }
-.left-part{
+
+.left-part {
   flex-direction: column;
   margin-top: 100px;
   margin-left: 20px;
 }
-.right-part{
+
+.right-part {
   margin-left: 100px;
   margin-top: 200px;
-  
+
 }
-#creation-para{
+
+#creation-para {
   text-align: center;
 }
-.carousel{
+
+.carousel {
   margin-left: 50px;
   margin-top: 100px;
 }
-.border{
+
+.border {
   border-style: hidden;
   width: 900px;
   height: 350px;
-  background-color:white;
-  color:goldenrod;
+  background-color: white;
+  color: goldenrod;
   margin-left: 50px;
+}
+
+.cart {
+  background-color: aliceblue;
+}
+
+#cart-heading {
+  margin-top: 100px;
+  margin-left: 100px;
+  font-family: 'Times New Roman';
+  font-size: 15vh;
+}
+
+#cart-btn {
+  background-color: whitesmoke;
+  color: black;
+  border-color: black;
+  width: 220px;
+  height: 50px;
+  border-radius: 0%;
+  margin-left: 530px;
+  margin-top: 20px;
+  font-family: 'Times New Roman';
+}
+
+#checkout-btn {
+  background-color: whitesmoke;
+  color: black;
+  border-color: black;
+  width: 220px;
+  height: 50px;
+  border-radius: 0%;
+  margin-top: 20px;
+  font-family: 'Times New Roman';
+  margin-left: 50px;
+}
+
+#checkout-link {
+  text-decoration-line: none;
+  color: black;
+}
+
+#billing-heading {
+  font-family: 'Times';
+  font-size: 6vh;
+}
+
+#checkout {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#billing {
+  flex-direction: column;
+}
+
+#order-notes {
+  font-family: 'Times';
+  font-size: 3vh;
+}
+
+#payment-heading {
+  margin-top: 100px;
+  margin-left: 100px;
+  font-family: 'Times New Roman';
+  font-size: 10vh;
+  color: green;
+}
+
+.payment {
+  background-color: #E9EBEE;
+}
+
+#payment-details {
+  font-family: 'Times';
+  font-size: 5vh;
+}
+
+#payment-secure {
+  font-family: 'Times';
+  font-size: 3vh;
+  color: #90949C;
+}
+
+#payment-button {
+  background-color: #3b5999;
+  border-color: #3b5999;
+  border-radius: 3px;
+  width: 450px;
+  margin-left: 20px;
+}
+
+#debit-button {
+  background-color: #90949C;
+  border-radius: 3px;
+  width: 450px;
+  margin-left: 20px;
+  border-color: #90949C;
+}
+
+#myorder-heading {
+  margin-top: 100px;
+  margin-left: 100px;
+  font-family: 'Times New Roman';
+  font-size: 15vh;
+}
+
+.my-order {
+  background-color: #E9EBEE;
 }
 

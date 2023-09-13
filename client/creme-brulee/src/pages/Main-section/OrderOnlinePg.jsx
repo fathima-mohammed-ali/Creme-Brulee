@@ -10,13 +10,13 @@ export default function OrderOnlinePg() {
     <MainNav/>
     <div className='container'>
       <div className='row'>
-        <div className='col-lg-9 col-9 col-md-9'>
+        <div className='col-lg-9 col-12 col-md-7'>
     <OrderOnline/>
     </div>
-    <div className='col-lg-3 col-3 col-md-3' id='sidebar-fix'>
+    <div className='col-md-5 col-lg-3 col-12' id='sidebar-fix'>
     <Sidebar/>
     </div>
-    <div className='footer'><Footer/></div>
+    <div className='col-lg-12 col-md-12 col-6' id='footer'><Footer/></div>
     </div>
     </div>
    

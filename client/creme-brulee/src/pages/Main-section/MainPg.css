@@ -4,11 +4,11 @@
    overflow: hidden;
  }
 .container{
-  width: 100%;
+ width: 100%;
 }
 #sidebar-fix{
-  margin-top: 150px;
+ margin-top: 220px;
 }
-.footer{
-  margin-top: 200px;
+#footer{
+  margin-top: 20px;
 }

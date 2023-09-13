@@ -7,7 +7,9 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Row, Form, Col, Breadcrumb } from 'react-bootstrap'
 import axios from 'axios';
+import Swal from 'sweetalert2'
 import './Main.css'
+import { useSelector } from 'react-redux';
 
 function paginator(items, current_page, per_page_items) {
     let page = current_page || 1,
@@ -30,20 +32,30 @@ function paginator(items, current_page, per_page_items) {
 }
 
 export default function OrderOnline() {
-
+    const selectFilterPrice = useSelector(state => state.filtered.filter);
+    const category = useSelector(state => state.selectedCategory.select_Category);
+    const[categoryName,setCategoryName]=useState(false);
+    const[filterActive,setFilterActive]=useState(false);
     const[carrierDetails,setCarrierDetails]=useState([])
+    
 
     useEffect(() => {
-        axios.get("http://localhost:4000/order/view-cake")
+        axios.get("http://localhost:4000/order/view-product")
             .then((response) => {
                 console.log(response);
                 const details = response.data.details;
                 setCarrierDetails(details)
-
             })
     }, [])
+
+    useEffect(()=>{
+        setFilterActive(selectFilterPrice!==null&&selectFilterPrice.length>0);
+        setCategoryName(category!==null&&category.length>0);
+    },[selectFilterPrice,category]);
+
+ console.log(category);
       
-console.log(carrierDetails);
+
     const count = Math.ceil(carrierDetails.length / 3);
     console.log(count);
     const [page, setPage] = useState(1);
@@ -61,52 +73,61 @@ console.log(carrierDetails);
         }
         setChecked([...prev]);
     };
-    console.log(checked);
+    
 
 
     {/*to view Modal*/ }
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    {/*to store cake items*/ }
-    const [cakeOrder, setCakeOrder] = useState({
-        event: "",
-        theme: "",
-        kg: "",
-        flavour: "",
-        date: "",
-        time: "",
-        location: "",
-        contact: "",
-    })
-    const inputChange = (event) => {
-        const { name, value } = event.target
-        setCakeOrder({ ...cakeOrder, [name]: value })
+
+    const showAlert=()=>{
+        Swal.fire({
+            icon: 'success', 
+            title: 'Done!',
+            text: 'Your item is added to the cart!',
+          });
     }
+
+    const handleCart=(id)=>{
+        const data ={
+            productID:id
+        }
+     const token=localStorage.getItem('token')
+        axios.post("http://localhost:4000/cart/add-to-cart",data,{
+            headers:{
+                'authorization':`Bearer ${token}`
+            }   
+        }).then((response) => { 
+            console.log(response)
+            showAlert();
+        })
+    }
+
+
     const [validated, setValidated] = useState(false);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const form = event.currentTarget;
-        if (form.checkValidity() === true) {
-            event.stopPropagation();
-            axios.post("http://localhost:4000/order/cake", cakeOrder).then((response) => {
-                console.log(response);
-            })
-        }
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     const form = event.currentTarget;
+    //     if (form.checkValidity() === true) {
+    //         event.stopPropagation();
+    //         axios.post("http://localhost:4000/order-online", placeOrder).then((response) => {
+    //             console.log(response);
+    //         })
+    //     }
 
-        setValidated(true);
-    };
+    //     setValidated(true);
+    // };
   
     const [flip, setFlip] = useState({
         index: ''
     });
-    console.log(paginator(carrierDetails, page, 3).data);
+    
     return (
         <>
             <Breadcrumb style={{ marginTop: 150 }}>
                 <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-                <Breadcrumb.Item href="/add-cake">
+                <Breadcrumb.Item href="/add-product">
                     Add&Delete
                 </Breadcrumb.Item>
                 <Breadcrumb.Item active>Data</Breadcrumb.Item>
@@ -116,7 +137,7 @@ console.log(carrierDetails);
 
             <div className='flex-container'>
                
-                            {paginator(carrierDetails, page, 6).data.map((data, index) => (
+                            {paginator(filterActive?selectFilterPrice:categoryName?category:carrierDetails, page, 6).data.map((data, index) => (
                                 <>
                                     <ReactCardFlip isFlipped={flip.index === index ? true : false}
                                         flipDirection="vertical">
@@ -125,7 +146,7 @@ console.log(carrierDetails);
                                                 divider={index < carrierDetails.length - 1}>
                                                 <Card.Img variant="top" src={`/upload/${data.image}`} />
                                                 <Card.Body>
-                                                    <Card.Title style={{ fontFamily: "Dancing script", fontSize: "5vh" }}><b>{data.cakename}</b></Card.Title>
+                                                    <Card.Title style={{ fontFamily: "Dancing script", fontSize: "5vh" }}><b>{data.itemName}</b></Card.Title>
                                                     <Button variant="dark" onClick={() => setFlip({ index: index })}>For More Details</Button>
                                                 </Card.Body>
                                             </Card>
@@ -144,7 +165,7 @@ console.log(carrierDetails);
                                             <h4 id='ingredients'>Ingredients</h4>
                                             <p>{data.ingredients}</p>
                                             <h4>${data.price}</h4>
-                                            <Button onClick={handleShow}>Order Now</Button>
+                                            <Button onClick={()=>handleCart(data._id)}>Add To Cart</Button>
                                             <br />
                                             <Button style={{
                                                 width: '150px',
@@ -164,116 +185,10 @@ console.log(carrierDetails);
                       
             </div>
 
-            {/*order card parent div2*/}
 
-            <div className='flex-container'>
-
-
-                {/*modal for place order*/}
-
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title style={{ fontFamily: "Dancing script" }}>Your Order Please!..</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} md="4" controlId="validationCustomUsername">
-                                    <Form.Label className='order-labels'>Event</Form.Label>
-                                    <Form.Control
-                                        onChange={inputChange}
-                                        type="text"
-                                        name='event'
-                                        placeholder="eg:Wedding"
-                                        aria-describedby="inputGroupPrepend"
-                                        required
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Mention the Event.
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} md="6" controlId="validationCustom03">
-                                    <Form.Label className='order-labels'>Theme</Form.Label>
-                                    <Form.Control onChange={inputChange} name='theme' type="text" placeholder="eg:floral" required />
-                                    <Form.Control.Feedback type="invalid">
-                                        Mention the Theme.
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} md="6" controlId="validationCustom03">
-                                    <Form.Label className='order-labels'>Kg</Form.Label>
-                                    <Form.Control onChange={inputChange} name='kg' type="number" placeholder="eg:no:tiers" required />
-                                    <Form.Control.Feedback type="invalid">
-                                        Mention the Kg.
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} md="6" controlId="validationCustom03">
-                                    <Form.Label className='order-labels'>Flavour</Form.Label>
-                                    <Form.Control onChange={inputChange} name='flavour' type="text" defaultValue="Spanish Delight" required />
-                                    <Form.Control.Feedback type="invalid">
-                                        Sorry this Flavour not available.
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} md="6" controlId="validationCustom03">
-                                    <Form.Label className='order-labels'>Date</Form.Label>
-                                    <Form.Control onChange={inputChange} name='date' type="date" required />
-                                    <Form.Control.Feedback type="invalid">
-                                        Mention the date.
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} md="6" controlId="validationCustom03">
-                                    <Form.Label className='order-labels'>Time</Form.Label>
-                                    <Form.Control onChange={inputChange} name='time' type="time" required />
-                                    <Form.Control.Feedback type="invalid">
-                                        Time not added.
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} md="6" controlId="validationCustom03">
-                                    <Form.Label className='order-labels'>Location</Form.Label>
-                                    <Form.Control onChange={inputChange} name='location' type="text" placeholder="eg:Where to deliver" required />
-                                    <Form.Control.Feedback type="invalid">
-                                        Location not specified
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} md="6" controlId="validationCustom03">
-                                    <Form.Label className='order-labels'>Mobile/Phone Number</Form.Label>
-                                    <Form.Control onChange={inputChange} name='contact' type="tel" placeholder="eg:Your Contact Number" required />
-                                    <Form.Control.Feedback type="invalid">
-                                        Contact Number is invalid
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Button type='submit' variant="primary">
-                                Place Order
-                            </Button>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-
-
-            </div>
-
-            <Stack spacing={2}>
+            <Stack  spacing={2}>
                 <Pagination
-                sx={{marginTop:20,marginLeft:50}}
+                sx={{marginTop:10,marginBottom:10,marginLeft:10}}
                     count={count}
                     page={page}
                     onChange={handleChange}

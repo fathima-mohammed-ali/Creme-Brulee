@@ -2,17 +2,15 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import HomePage from './pages/Main-section/HomePage';
-import ProfilePage from './pages/Main-section/ProfilePage';
 import OrderOnlinePg from './pages/Main-section/OrderOnlinePg';
-import AddCakePg from './pages/Main-section/AddCakePg';
-import OrderDonutPg from './pages/Main-section/OrderDonutPg';
-import AddDonutPg from './pages/Main-section/AddDonutPg';
-import OrderDessertPg from './pages/Main-section/OrderDessertPg';
-import AddDesert from './pages/Main-section/AddDesert';
-import OrderCupCakePg from './pages/Main-section/OrderCupCakePg';
-import AddCupCake from './pages/Main-section/AddCupCake';
 import BlogPg from './pages/Main-section/BlogPg';
 import ShopPage from './pages/Main-section/ShopPage';
+import AddProductPg from './pages/Main-section/AddProductPg';
+import PortfolioPage from './pages/Main-section/PortfolioPage';
+import CartPg from './pages/Main-section/CartPg';
+import CheckoutPg from './pages/Main-section/CheckoutPg';
+import PaymentPg from './pages/Main-section/PaymentPg';
+import MyOrderPg from './pages/Main-section/MyOrderPg';
 function App() {
   return (
     <>
@@ -20,17 +18,15 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<HomePage/>} />
-          <Route path='/profile' element={<ProfilePage/>} />
+          <Route path='/portfolio' element={<PortfolioPage/>} />
           <Route path='/blog' element={<BlogPg/>} />
-          <Route path='/order-cake' element={<OrderOnlinePg/>} />
-          <Route path='/add-cake' element={<AddCakePg/>} />
-          <Route path='/order-donut' element={<OrderDonutPg/>} />
-          <Route path='/add-donut' element={<AddDonutPg/>} />
-          <Route path='/order-dessert' element={<OrderDessertPg/>} />
-          <Route path='/add-dessert' element={<AddDesert/>} />
-          <Route path='/order-cupcake' element={<OrderCupCakePg/>} />
-          <Route path='/add-cupcake' element={<AddCupCake/>} />
+          <Route path='/order-online' element={<OrderOnlinePg/>} />
+          <Route path='/add-product' element={<AddProductPg/>} />
           <Route path='/shop' element={<ShopPage/>} />
+          <Route path='/cart' element={<CartPg/>} />
+          <Route path='/checkout' element={<CheckoutPg/>} />
+          <Route path='/payment' element={<PaymentPg/>} />
+          <Route path='/my-order' element={<MyOrderPg/>} />
         </Routes>
       </BrowserRouter>
 

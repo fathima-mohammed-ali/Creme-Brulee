@@ -9,7 +9,11 @@ export default function HomePage() {
     
       <div className='container-fluid'>
         <MainNav />
-         <Home />
+          <div className='row'>
+            <div className='col-12 col-md-12 col-lg-12'>
+          <Home />
+          </div>
+          </div>
         <Contact />
       </div>
     </>

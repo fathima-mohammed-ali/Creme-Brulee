@@ -24,7 +24,7 @@ const Label = styled(Paper)(({ theme }) => ({
 }));
 
 
-export default function Profile() {
+export default function Portfolio() {
   useEffect(() => {
     AOS.init({
       duration:1500
