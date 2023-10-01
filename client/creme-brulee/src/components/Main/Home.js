@@ -36,8 +36,6 @@ export default function Home() {
         <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/3060255/pexels-photo-3060255.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img></SwiperSlide>
       </Swiper> 
   
-
- 
     </>
 
 

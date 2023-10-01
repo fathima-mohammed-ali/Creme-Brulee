@@ -11,7 +11,7 @@ export default function MyOrderPg() {
                 <div>
                     <MyOrder />
                 </div>
-                <div className='footer'>
+                <div className='footer' >
                     <Footer />
                 </div>
             </div>

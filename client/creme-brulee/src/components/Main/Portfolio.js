@@ -41,7 +41,7 @@ export default function Portfolio() {
 
 
       <Box sx={{ width: 1050, minHeight: 829,marginLeft:10 }} >
-        <Masonry className='masonry' columns={3} spacing={2} >
+        <Masonry className='masonry'  spacing={5} columns={3} >
           {itemData.map((item, index) => (
             <div key={index}>
               <Label>{index+1}</Label>

@@ -3,11 +3,21 @@ import { Button, ButtonGroup, Table } from 'react-bootstrap'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import ClearIcon from '@mui/icons-material/Clear';
+import Swal from 'sweetalert2'
 import { TextField } from '@mui/material';
 export default function Cart() {
   const [CartItems, setCartItems] = useState([])
   const [CartActive, setCartActive] = useState(false)
   const [Quantity, setQuantity] = useState(1)
+
+   const showErrorAlert = (error) => {
+     Swal.fire({
+      icon: 'info',
+       title: 'Hello there...',
+       text: "You have to login to view your cart",
+     });
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token')
     axios.get("http://localhost:4000/cart/view-cart", {
@@ -19,6 +29,8 @@ export default function Cart() {
       const details = response.data.details;
       setCartItems(details)
       console.log(CartItems);
+    }).catch((error)=>{
+        showErrorAlert(error);
     })
   }, [])
 
@@ -59,10 +71,10 @@ export default function Cart() {
   }
   return (
     <>
-      <div className='cart'>
+      <div className='cart col-12 col-md-12 col-lg-12'>
         <h1 id='cart-heading'>CART</h1>
       </div>
-      <div>
+      <div className='col-11 col-md-11 col-lg-12'>
         {CartActive ? (
           <>
 
@@ -99,16 +111,20 @@ export default function Cart() {
               </tbody>
             </Table>
             {/* <h6 style={{ fontSize: "7vh", fontFamily: "Times New Roman", marginTop: 30, marginLeft: 30 }}>Cart total</h6> */}
+            <div className='text-left ms-5'>
            <Button id='checkout-btn'><a id='checkout-link' href='/checkout'>PROCEED TO CHECKOUT</a></Button>
-
+            </div>
+            <div className='text-left ms-5 mb-5'>
+            <Button id='cart-btn' onClick={ToMyOrder}>MY ORDERS</Button>
+            </div>
+            
           </>
         ) : (
           <>
-            <h6 className='text-center' style={{ fontSize: "7vh", fontFamily: "Times New Roman", marginTop: 100, }}>Your cart is currently empty.</h6>
-           
+            <h6 className='text-center mt-5 mb-5' style={{ fontSize: "7vh", fontFamily: "Times New Roman",color:'#90949C' }}>Your cart is currently empty.</h6> 
           </>
         )}
- <Button id='cart-btn' onClick={ToMyOrder}>MY ORDERS</Button>
+
       </div>
 
 

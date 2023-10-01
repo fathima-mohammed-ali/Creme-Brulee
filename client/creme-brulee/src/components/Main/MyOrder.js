@@ -1,7 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Table } from 'react-bootstrap'
-
+import { Button, Table } from 'react-bootstrap'
 export default function MyOrder() {
   const [CartItems, setCartItems] = useState([])
   const [CartActive, setCartActive] = useState(false)
@@ -58,8 +57,9 @@ export default function MyOrder() {
         </>
       ) : (
         <>
-          <h6 className='text-center' style={{ fontSize: "7vh", fontFamily: "Times New Roman", marginTop: 100, }}>You did'nt placed any orders recently.</h6>
-
+          <h6 className='text-center mb-5 mt-5' style={{ fontSize: "7vh", fontFamily: "Times New Roman",color:'#90949C' }}>No orders recently.</h6>
+          <div className='text-center mb-5'><Button><a className='order-link text-white' href='/order-online'>Order Now</a></Button></div>
+           
         </>
       )}
 

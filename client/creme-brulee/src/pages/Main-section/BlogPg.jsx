@@ -10,7 +10,7 @@ export default function BlogPg() {
     <MainNav/>
     <Blog/>
    </div>
-   <div className='footer'>
+   <div className='footer mt-4'>
     <Footer/>
    </div>
    </>

@@ -6,22 +6,19 @@
 }
 .navText-style{
     font-family: 'Dancing script',cursive;
-    padding-right: 100px;
-    padding-left: 30px; 
-    font-size: 7vh;    
+     margin-right: 100px; 
+     margin-left: 100px;
+    /* padding-left: 10px;  */ 
+    font-size: 7vh; 
+    color: antiquewhite;   
 }
 
-#portfolio-bar{
+#portfolio-bar,#blog-bar{
  padding-left: 30px;
 }
-#blog-bar{
-  padding-left: 30px;   
-}
-#shop-bar{
-    padding-left: 30px;
-}
+
 #cart-bar{
-   padding-left: 30px;
+   padding-left: 20px;
 }
 .fi{
     padding-left: 10px;
@@ -47,8 +44,14 @@
 .controls{
     width: 400px;
 }
-
-
+@media (max-width: 399px) {
+    .navText-style{
+    
+         margin-right: 50px; 
+         margin-left: 50px;
+        
+    }
+}
 
 
 
