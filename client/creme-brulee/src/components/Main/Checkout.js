@@ -41,14 +41,16 @@ export default function Checkout() {
     }
     if (billingData.postcode.trim() === '') {
       newErrors.postcode = 'postcode is required';
-    }else if (!isValidCode(billingData.postcode)) {
-      newErrors.postcode = 'Invalid Postcode';
     }
+    // }else if (!isValidCode(billingData.postcode)) {
+    //   newErrors.postcode = 'Invalid Postcode';
+    // }
     if (billingData.phone.trim() === '') {
       newErrors.phone = 'Mobile number is required';
-    } else if (!ValidNumber(billingData.phone)) {
-      newErrors.phone = 'Invalid Mobile number';
     }
+    // } else if (!ValidNumber(billingData.phone)) {
+    //   newErrors.phone = 'Invalid Mobile number';
+    // }
     if (billingData.email.trim() === '') {
       newErrors.email = 'Email is required';
     } else if (!isValidEmail(billingData.email)) {
@@ -62,13 +64,9 @@ export default function Checkout() {
     }
     if(billingData.date.trim()===''){
       newErrors.date='Mention the Date'
-    } else if (!isValidDate(billingData.date)){
-      newErrors.date='Invalid Date'
     }
     if(billingData.time.trim()===''){
       newErrors.time='Mention the Time'
-    } else if (!isValidTime(billingData.time)){
-      newErrors.time = 'Invalid Time'
     }
    if (billingData.location.trim()===''){
     newErrors.location='Mention the Location'
@@ -78,40 +76,25 @@ export default function Checkout() {
 
     return Object.keys(newErrors).length === 0;
   };
-  const ValidNumber = (phone) => {
-    if (phone.length !== 10) {
-      return false;
-    }
-  }
+  // const ValidNumber = (phone) => {
+  //   if (phone.length !== 10) {
+  //     return false;
+  //   }
+  // }
   const isValidEmail = (email) => {
     return /[^\s]*@[a-z0-9.-]*/i.test(email);
   };
-  const isValidCode=(postcode)=>{
-    if(postcode.length!==6){
-       return false
-    }
-  }
-  const isValidDate = (date) => {
-    const parts = date.split('/');
-    if (parts.length !== 3) {
-        return false;
-    };
-    const day = parseInt(parts[0],10)
-    const month = parseInt(parts[1], 10);
-    const year = parseInt(parts[2], 10);
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear() % 100; // Get the last two digits of the current year
-    return day >=1 && day <= 31 && month >= 1 && month <= 12 && year >= currentYear && year <= currentYear + 20;
-};
-const isValidTime =(time)=>{
-  return "([01]?[0-9]|2[0-3]):[0-5][0-9]".test(time);
+  // const isValidCode=(postcode)=>{
+  //   if(postcode.length!==6){
+  //      return false
+  //   }
+  // }
 
-}
   const showAlert=()=>{
     Swal.fire({
         icon: 'error', 
         title: 'OOps!',
-        text: 'Make sure your details are valid..',
+        text: 'Please Re-Check your details..',
       });
 }
   const submit = (e) => {
@@ -119,6 +102,7 @@ const isValidTime =(time)=>{
     const formIsValid = validateForm();
     console.log(formIsValid);
     const token = localStorage.getItem('token')
+    console.log(token);
     setIsSubmit(true)
     if (Object.keys(errors).length == 0 && formIsValid) {
     axios.post("http://localhost:4000/cart/checkout",
