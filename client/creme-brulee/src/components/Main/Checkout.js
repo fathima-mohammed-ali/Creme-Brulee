@@ -89,7 +89,6 @@ export default function Checkout() {
   //      return false
   //   }
   // }
-
   const showAlert=()=>{
     Swal.fire({
         icon: 'error', 
@@ -104,13 +103,13 @@ export default function Checkout() {
     const token = localStorage.getItem('token')
     console.log(token);
     setIsSubmit(true)
-    if (Object.keys(errors).length == 0 && formIsValid) {
-    axios.post("http://localhost:4000/cart/checkout",
+    if (Object.keys(errors).length == 0 && formIsValid && token) {
+    axios.post("http://localhost:4000/cart/checkout",billingData,
       {
         headers: {
           'authorization': `Bearer ${token}`
         }
-      }, billingData).then((response) => {
+      }).then((response) => {
         console.log(response);
       }).catch((error)=>{
         showAlert(error);
@@ -193,7 +192,7 @@ export default function Checkout() {
               </>)}
           </tbody>
         </Table>
-        <Button className='mb-5' type='submit' onClick={submit} id='checkout-btn'><a id='checkout-link' href='/payment'>PLACE ORDER</a></Button>
+        <Button className='mb-5' type='submit' onClick={submit} id='checkout-btn'><a id='checkout-link' href='/payment'></a>PLACE ORDER</Button>
 
 
 
