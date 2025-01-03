@@ -1,57 +1,139 @@
-.nav-style{
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 3vw;
-    background-color: black;
-    
-}
-.navText-style{
-    font-family: 'Dancing script',cursive;
-     margin-right: 100px; 
-     margin-left: 100px;
-    /* padding-left: 10px;  */ 
-    font-size: 7vh; 
-    color: antiquewhite;   
+.nav-style {
+  font-family: 'Times New Roman', Times, serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #222222;
+  /* Dark background */
+  color: #fff;
+  padding: 0 20px;
+  height: 60px;
+  /* Perfect height */
+  width: 100%;
+  /* Full width */
+  position: 'relative';
+  top: 0;
+  z-index: 1000
 }
 
-#portfolio-bar,#blog-bar{
- padding-left: 30px;
+.navText-style {
+  font-family: 'Dancing script', cursive;
+  font-size: 7vh;
+  color: antiquewhite;
+  letter-spacing: 5px;
+  margin: 0 20px;
 }
 
-#cart-bar{
-   padding-left: 20px;
+#Nav-links {
+  display: flex;
+  justify-content: space-between;
+  /* Equal space between links */
+  align-items: center;
+  /* Vertically align links */
+  padding: 0 20px;
+  color: antiquewhite;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
-.fi{
-    padding-left: 10px;
+#Nav-links:hover {
+  color: #ffcc99; /* Change color on hover */
+  transform: scale(1.1); /* Slightly enlarge for effect */
+  cursor: pointer; /* Change cursor to pointer */
 }
-#login-bar{
-    padding-left: 20px;   
-}
-#login-bar:hover{
-    cursor: pointer;
-}
-.form-labels{
-    font-family: 'Times New Roman', Times, serif;
-    font-size: large;
-    text-decoration-line: none;
-    color: black;
-    padding: 5px;
-}
-.form-checkbox{
-    font-family: 'Times New Roman', Times, serif;
-    font-size: large;
-    margin-top: 20px;
-}
-.controls{
-    width: 400px;
-}
-@media (max-width: 399px) {
-    .navText-style{
-    
-         margin-right: 50px; 
-         margin-left: 50px;
-        
-    }
+
+.fi {
+  padding-left: 10px;
 }
 
 
 
+.form-labels {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: large;
+  text-decoration-line: none;
+  color: black;
+  padding: 5px;
+}
+
+.form-checkbox {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: large;
+  margin-top: 20px;
+}
+
+.controls {
+  width: 400px;
+}
+
+@media (max-width: 500px) {
+  .navText-style {
+    font-size: 4vh;
+    /* Smaller size */
+    white-space: nowrap;
+    /* Prevent wrapping */
+    overflow: hidden;
+    /* Hide overflow text */
+    text-overflow: ellipsis;
+    /* Add '...' for overflow */
+    margin-right: 10px;
+    margin-left: 10px;
+    position: relative;
+  }
+
+  .navbar-collapse {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #555;
+    /* Same dark background */
+    padding-top: 10px;
+    display: none;
+    flex-direction: column;
+    text-align: left;
+    z-index: 999;
+  }
+
+  /* Make the nav items stack vertically in a box */
+  .navbar-collapse.show {
+    display: flex;
+  }
+
+  .navbar-nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  /* Links in the collapsed navbar */
+  .navbar-brand {
+    text-align: left;
+    width: 100%;
+    padding: 10px 20px;
+    margin: 0;
+    font-size: 18px;
+    border-bottom: 1px solid #555;
+  }
+
+  /* Customize the toggle button (hamburger) */
+  .navbar-toggler {
+    border: 1px solid #555;
+  }
+
+  .navbar-toggler-icon {
+    background-color: #555;
+  }
+  .controls{
+    width: 300px;
+  }
+}
+
+/* Add fixed positioning for the top navbar */
+.navbar.fixed-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  /* Ensure the navbar stays on top */
+  box-shadow: 0 2px 10px rgba(43, 25, 16, 0.1);
+}

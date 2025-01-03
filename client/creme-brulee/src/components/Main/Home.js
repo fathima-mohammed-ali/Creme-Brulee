@@ -25,15 +25,15 @@ export default function Home() {
         modules={[FreeMode, Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/2067436/pexels-photo-2067436.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img></SwiperSlide>
-        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/11543451/pexels-photo-11543451.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img></SwiperSlide>
-        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/5702943/pexels-photo-5702943.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img></SwiperSlide>
-        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/2067419/pexels-photo-2067419.jpeg'></img></SwiperSlide>
-        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/1028432/pexels-photo-1028432.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img></SwiperSlide>
-        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/10194405/pexels-photo-10194405.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'></img></SwiperSlide>
-        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/7440369/pexels-photo-7440369.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'></img></SwiperSlide>
-        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/3923555/pexels-photo-3923555.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img></SwiperSlide>
-        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/3060255/pexels-photo-3060255.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img></SwiperSlide>
+        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/2067436/pexels-photo-2067436.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img><div className='item-name'>Dark Chocalate</div></SwiperSlide>
+        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/11543451/pexels-photo-11543451.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img><div className='item-name'>Wedding Special</div></SwiperSlide>
+        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/5702943/pexels-photo-5702943.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img><div className='item-name'>Chocalate Fudge</div></SwiperSlide>
+        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/2067419/pexels-photo-2067419.jpeg'></img><div className='item-name'>Chocalate Brownies</div></SwiperSlide>
+        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/1028432/pexels-photo-1028432.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img><div className='item-name'>Choco&Vanilla Icecreams</div></SwiperSlide>
+        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/10194405/pexels-photo-10194405.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'></img><div className='item-name'>CupCake</div></SwiperSlide>
+        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/7440369/pexels-photo-7440369.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'></img><div className='item-name'>Chocalate Donut</div></SwiperSlide>
+        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/3923555/pexels-photo-3923555.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img><div className='item-name'>Dream Cake</div></SwiperSlide>
+        <SwiperSlide><img className='swiper-slide img' src='https://images.pexels.com/photos/3060255/pexels-photo-3060255.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img><div className='item-name'>Donuts Mixed</div></SwiperSlide>
       </Swiper> 
   
     </>

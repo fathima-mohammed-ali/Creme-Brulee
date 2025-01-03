@@ -8,13 +8,17 @@ import { TextField } from '@mui/material';
 export default function Cart() {
   const [CartItems, setCartItems] = useState([])
   const [CartActive, setCartActive] = useState(false)
-  const [Quantity, setQuantity] = useState(1)
+  const [Quantity, setQuantity] = useState(2)
 
    const showErrorAlert = (error) => {
      Swal.fire({
       icon: 'info',
        title: 'Hello there...',
        text: "You have to login to view your cart",
+       confirmButtonText: 'OK',
+       customClass: {
+         confirmButton: 'swal-custom-button'
+       }
      });
   };
 
@@ -41,6 +45,8 @@ export default function Cart() {
   const handleDelete = (id) => {
     axios.post(`http://localhost:4000/cart/delete/${id}`).then((response) => {
       console.log(response);
+      window.location.reload()
+
     })
   }
 
@@ -56,8 +62,10 @@ export default function Cart() {
     })
   }
   const quantityMinus = (id) => {
+    console.log('Current Quantity:', Quantity);
     if (Quantity > 1) { // Ensure quantity doesn't go below 1
       const newQuantity = Quantity - 1;
+      console.log('New Quantity (after decrement):', newQuantity);
       setQuantity(newQuantity);
       axios.get(`http://localhost:4000/cart/quantity-minus-cart/${id}`).then((response) => {
         console.log(response);
@@ -66,19 +74,16 @@ export default function Cart() {
     }
   }
   const navigate= useNavigate()
-  const ToMyOrder=()=>{
-      navigate('/my-order')
-  }
   return (
     <>
       <div className='cart col-12 col-md-12 col-lg-12'>
-        <h1 id='cart-heading'>CART</h1>
+      <h1 style={{ fontFamily: "'Cambria', 'Cochin', 'Georgia', 'Times', 'Times New Roman', serif" }} id="cart-heading">CART</h1>
       </div>
       <div className='col-11 col-md-11 col-lg-12'>
         {CartActive ? (
           <>
 
-            <Table>
+            <Table id='cart-table'>
               <thead>
                 <tr>
                   <th></th>
@@ -97,8 +102,8 @@ export default function Cart() {
                       <td>{data.price}</td>
                       <td><TextField size='small' sx={{ width: 100, marginRight: 5 }} value={data.quantity} onChange={handleQuantityChange} variant="outlined" />
                         <ButtonGroup className="sm">
-                          <Button onClick={() => { quantityAdd(data._id) }}>+</Button>
-                          <Button onClick={() => { quantityMinus(data._id) }}>-</Button>
+                          <Button className='btn-plus' onClick={() => { quantityAdd(data._id) }}>+</Button>
+                          <Button className='btn-minus' onClick={() => { quantityMinus(data._id) }}>-</Button>
                         </ButtonGroup>
                       </td>
                       <td>{data.subtotal}</td>
@@ -115,13 +120,13 @@ export default function Cart() {
            <Button id='checkout-btn'><a id='checkout-link' href='/checkout'>PROCEED TO CHECKOUT</a></Button>
             </div>
             <div className='text-left ms-5 mb-5'>
-            <Button id='cart-btn' onClick={ToMyOrder}>MY ORDERS</Button>
+            <Button id='cart-btn' onClick={()=>navigate('/my-order')}>MY ORDERS</Button>
             </div>
             
           </>
         ) : (
           <>
-            <h6 className='text-center mt-5 mb-5' style={{ fontSize: "7vh", fontFamily: "Times New Roman",color:'#90949C' }}>Your cart is currently empty.</h6> 
+            <h6 className='text-center mt-5 mb-5' style={{ fontSize: "7vh", fontFamily: "poppins",color:'#90949C',textAlign:'center' }}>Your cart is currently empty.</h6> 
           </>
         )}
 

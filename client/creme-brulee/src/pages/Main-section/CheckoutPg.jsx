@@ -1,17 +1,17 @@
 import React from 'react'
 import MainNav from '../../components/Nav/MainNav'
-import Checkout from '../../components/Main/Checkout'
 import Footer from '../../components/Main/Footer'
+import Checkout from '../../components/Main/Checkout'
 
 export default function CheckoutPg() {
     return (
         <>
-            <div>
+            <div >
                 <MainNav />
-                <div>
-                    <Checkout />
+                <div >
+                   <Checkout/>
                 </div>
-                <div className='footer'>
+                <div>
                     <Footer />
                 </div>
             </div>

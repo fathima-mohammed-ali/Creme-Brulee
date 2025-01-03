@@ -15,11 +15,11 @@ import { Link } from 'react-router-dom';
         return (
             <>
                 <div className='blog'>
-                    <div className='left-part col-12 col-lg-4 col-md-7'>
-                        <img style={{ width: 400 }} className='img-fluid' src='https://images.pexels.com/photos/3060255/pexels-photo-3060255.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img>
+                    <div className=' col-12 col-lg-4 col-md-7'>
+                        <img style={{ width: 350,display:'block',paddingTop:'50px',margin:'0 auto'}} className='img-fluid' src='https://images.pexels.com/photos/3060255/pexels-photo-3060255.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'></img>
                     </div>
                     <div className='right-part col-12 col-lg-5 col-md-6 ms-5 '>
-                        <h2 className='text-left' style={{ fontFamily: "dancing script", fontSize: "8vh", color: "white" }}>Our Choco Story</h2>
+                        <h2 className='text-left' style={{ fontFamily: "dancing script", fontSize: "8vh", color: 'white' }}>Our Choco Story</h2>
                         <p className='text-left' style={{ fontFamily: "cursive", fontSize: "3vh", color: 'white', }}>Lorem ipsum dolor sit amet,<br /> consectetur adipiscing elit, <br />sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br /> Ut enim ad minim veniam,<br /> quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br />Duis aute irure dolor in reprehender eu fugiat nulla pariatur.<br /> Excepteur sint occaecat cupidatat</p>
                         <p id='ourchoco-para2' style={{ fontFamily: "cursive", fontSize: "3vh", color: "white" }}>Lorem ipsum dolor sit amet,<br /> consectetur adipiscing elit, <br />sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     </div>
@@ -55,7 +55,7 @@ import { Link } from 'react-router-dom';
                         </div>
                     </div>
                     <div className='col-lg-3 col-12 text-center  d-flex flex-column align-items-center '>
-                        <Avatar  className='img-fluid mt-5' sx={{ width: 200, height: 200 }} alt="Remy Sharp" src="https://media.istockphoto.com/photos/small-business-owner-picture-id648323658" />
+                        <Avatar  className='img-fluid mt-5' sx={{ width: 200, height: 200 }} alt="Remy Sharp" src="https://thumbs.dreamstime.com/b/female-chef-14984977.jpg" />
                         <h4 style={{ fontFamily: "Times new roman", fontSize: "4vh", color: "white", marginTop: 20 }}>ASHLEY WILSON</h4>
                         <p  style={{ color: "white", fontFamily: "cursive", fontSize: "2.5vh" }} >Introducing Creme Brulee Wonders,<br></br>Hello every one thank you for choosing us..</p>
                         <p   id='footer-icons'><Facebook style={{ color: "white",  marginBottom: 2, fontSize: 20 }} /><Twitter style={{ color: "white", marginLeft: 20, marginBottom: 2, fontSize: 20 }} /><Pinterest style={{ color: "white", marginLeft: 20, marginBottom: 2, fontSize: 20 }} /><YouTube style={{ color: "white", marginLeft: 20, marginBottom: 2, fontSize: 20 }} /><Instagram style={{ color: "white", marginLeft: 20, fontSize: 20 }} /></p>

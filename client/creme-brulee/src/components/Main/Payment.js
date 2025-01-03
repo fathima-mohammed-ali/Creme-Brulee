@@ -13,27 +13,40 @@ export default function Payment() {
         firstname: '',
         lastname: '',
     });
+    const [paypalData,setPaypalData] = useState({
+       email:'',
+       mobile:'',
+       password:'', 
+    })
     const [errors, setErrors] = useState({});
+    const [textError,setTextError] = useState ({});
     const [isSubmit, setIsSubmit] = useState(false);
-
-    const [show, setShow] = useState(false);
-    const [Open, setOpen] = useState(false);
+    const [activeModal, setActiveModal] = useState(null); // null, 'creditCard', or 'paypal'
+    const [checked, setChecked] = useState(false);
+    const handleCheckboxChange = (type) => {
+        setChecked(type); // Save the selected payment method
+        setTimeout(() => {
+          if (type === 'paypal') handleOpen();
+          if (type === 'creditCard') handleShow();
+        }, 300); // Small delay to avoid immediate modal opening
+      };
     const handleClose = () => {
-        setShow(false);
-        setOpen(false);
-    }
+      setActiveModal(null); // Close all modals
+    };
+    
     const handleShow = () => {
-        setShow(true);
-        setOpen(false);
-    }
+      setActiveModal('creditCard'); // Open credit card modal
+    };
+    
     const handleOpen = () => {
-        setShow(false);
-        setOpen(true);
-    }
+      setActiveModal('paypal'); // Open PayPal modal
+    };
+    
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
+        setPaypalData({...paypalData,[name]:value})
     };
     const validateForm = () => {
         const newErrors = {};
@@ -57,11 +70,15 @@ export default function Payment() {
         }
         if (formData.firstname.trim() === '') {
             newErrors.firstname = 'First name is required';
-        }
+          } else if (!/^[A-Za-z]+$/.test(formData.firstname)) {
+            newErrors.firstname = 'Name must contain only alphabetic letters';
+          }
 
-        if (formData.lastname.trim() === '') {
+          if (formData.lastname.trim() === '') {
             newErrors.lastname = 'Last name is required';
-        }
+          } else if (!/^[A-Za-z]+$/.test(formData.lastname)) {
+            newErrors.lastname = 'Name must contain only alphabetic letters';
+          }
 
         setErrors(newErrors);
 
@@ -90,7 +107,22 @@ export default function Payment() {
         Swal.fire({
             icon: 'success', 
             title: 'Success!',
-            text: 'Your payment has been done successfully!',
+            text: 'Your payment has been successfully done!',
+            confirmButtonText: 'OK',
+            customClass: {
+              confirmButton: 'swal-custom-button'
+            }
+          });
+    }
+
+    const errorAlert=()=>{
+        Swal.fire({
+            icon: 'error', 
+            text: 'Your payment has been failed!',
+            confirmButtonText: 'OK',
+            customClass: {
+              confirmButton: 'swal-custom-button'
+            }
           });
     }
     
@@ -110,10 +142,69 @@ export default function Payment() {
           }).then((response) => {
             console.log(response); 
             showAlert();
+          }).catch((error)=>{
+             console.log(error);
+             
+            errorAlert();
           })
 
 }
 }
+const validateFields = () => {
+    const newErrors = {};
+  
+    // Email validation
+    if (!paypalData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(paypalData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+  
+    // Mobile validation
+    if (!paypalData.mobile) {
+      newErrors.mobile = "Mobile number is required";
+    } else if (!/^\d{10}$/.test(paypalData.mobile)) {
+      newErrors.mobile = "Mobile number must be 10 digits";
+    }
+  
+    // Password validation
+    if (!paypalData.password) {
+      newErrors.password = "Password is required";
+    } else if (paypalData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+  
+    console.log("Validation errors:", newErrors);
+    setTextError(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
+  
+
+  const handleSubmit = (e)=> {
+    console.log('hi');
+    
+    e.preventDefault();
+    console.log("Form data before validation:", paypalData);
+    const token=localStorage.getItem('token') 
+    if (validateFields())
+         {      
+        axios.post("http://localhost:4000/cart/payment",paypalData, {
+            headers: {
+              'authorization': `Bearer ${token}`
+            }
+          }).then((response) => {
+            console.log(response); 
+            showAlert();
+          }).catch((error)=>{
+             console.log(error);
+             
+            errorAlert();
+          })
+
+}
+
+  };
+
 
     return (
         <>
@@ -123,16 +214,16 @@ export default function Payment() {
             <div>
                 <h6 id='billing-heading' style={{ marginTop: 80, marginLeft: 100 }}>Choose Your Payment Method</h6>
                 <div className='payment'>
-                    <p style={{ marginLeft: 100, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}><Checkbox onClick={handleOpen} variant='outlined' />&nbsp;&nbsp;<b>Pay Pal:</b> &nbsp;Safe payment online credit card needed.<img style={{ width: 100, marginLeft: 500 }} src='https://www.pngall.com/wp-content/uploads/5/PayPal-Logo-PNG-Picture.png'></img></p>
+                    <p style={{ marginLeft: 100, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}><Checkbox onChange={() => handleCheckboxChange('paypal')} checked={checked === 'paypal'} />&nbsp;&nbsp;<b>Pay Pal:</b> &nbsp;Safe payment online credit card needed.<img className='paypal-logo' style={{ width: 80, marginLeft:50 }} src='https://www.pngall.com/wp-content/uploads/5/PayPal-Logo-PNG-Picture.png'></img></p>
                 </div>
                 <div>
-                    <p style={{ marginLeft: 100, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}><Checkbox onClick={handleShow} variant='outlined' />&nbsp;&nbsp;<b>Credit Card:</b> &nbsp;Safe money transfer using your bank account.<img style={{ width: 100, marginLeft: 440 }} src='https://www.freepnglogos.com/uploads/visa-and-mastercard-logo-26.png'></img></p>
+                    <p style={{marginBottom:100, marginLeft: 100, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}><Checkbox onChange={() => handleCheckboxChange('creditCard')} checked={checked === 'creditCard'} />&nbsp;&nbsp;<b>Credit Card:</b> &nbsp;Safe money transfer using your bank account.<img className='visa-logo' style={{ width: 100, marginLeft:20 }} src='https://www.freepnglogos.com/uploads/visa-and-mastercard-logo-26.png'></img></p>
                 </div>
-                <hr></hr>
+               
             </div>
 
             {/*credit-card Modal*/}
-            <Modal show={show} onHide={handleClose}>
+            <Modal  show={activeModal === 'creditCard'} onHide={handleClose}>
                 <Modal.Header >
                     <h6 id='payment-details' style={{ marginTop: 20, marginLeft: 10 }}>Credit & Debit Cards</h6><img style={{ width: 100, marginLeft: 10 }} src='https://www.freepnglogos.com/uploads/visa-and-mastercard-logo-26.png'></img>
                     <hr></hr>
@@ -142,31 +233,16 @@ export default function Payment() {
                         <Row className="mb-3">
 
                             <h6 id='payment-secure' style={{ marginTop: 5, marginLeft: 10 }}>We don't share the financial details with the merchant</h6>
-                            {/* <InputLabel style={{ marginTop: 5, marginLeft: 20 }}>Country/Region</InputLabel>
-                            <Select
-                                id="payment-secure"
-                                value={formData.countryRegion}
-                                name='countryRegion'
-                                label="Country/Region"
-                                onChange={handleChange}
-                                sx={{ width: 418, marginLeft: 2.5 }}
-                            >
-                                <MenuItem >India</MenuItem>
-                                <MenuItem >United Arab Emirates</MenuItem>
-                                <MenuItem >Kingdom of Saudi Arabia</MenuItem>
-                                <MenuItem >United States</MenuItem>
-                                <MenuItem >Canada</MenuItem>
-                            </Select> */}
-                            <TextField sx={{ marginTop: 2, marginLeft: 2.5, width: 418 }} onChange={handleChange} name='cardNumber' value={formData.cardNumber} type='text' label='Card Number'></TextField><br></br>
-                            {errors.cardNumber && <p style={{color:"red"}}>error!!..{errors.cardNumber}</p>}
+                            <TextField sx={{ marginTop: 2, marginLeft: 2.5, width: 300 }} onChange={handleChange} name='cardNumber' value={formData.cardNumber} type='text' label='Card Number'></TextField><br></br>
+                            {errors.cardNumber && <p style={{color:"red"}}>{errors.cardNumber}</p>}
                             <TextField sx={{ marginTop: 2, marginLeft: 2.5, width: 200 }} onChange={handleChange} name='expires' value={formData.expires} type='text' label='Expires'></TextField>
-                            {errors.expires && <p style={{color:"red"}}>error!!..{errors.expires}</p>}
+                            {errors.expires && <p style={{color:"red"}}>{errors.expires}</p>}
                             <TextField sx={{ marginTop: 2, marginLeft: 2.5, width: 200 }} onChange={handleChange} name='cvv' value={formData.cvv} type='text' label='CVV'></TextField><br></br>
-                            {errors.cvv && <p style={{color:"red"}}>error!!..{errors.cvv}</p>}
+                            {errors.cvv && <p style={{color:"red"}}>{errors.cvv}</p>}
                             <TextField sx={{ marginTop: 2, marginLeft: 2.5, width: 200 }} onChange={handleChange} name='firstname' value={formData.firstname} type='text' label='First Name'></TextField>
-                            {errors.firstname && <p style={{color:"red"}}>error!!..{errors.firstname}</p>}
+                            {errors.firstname && <p style={{color:"red"}}>{errors.firstname}</p>}
                             <TextField sx={{ marginTop: 2, marginLeft: 2.5, width: 200 }} onChange={handleChange} name='lastname' value={formData.lastname} type='text' label='Last Name'></TextField>
-                            {errors.lastname && <p style={{color:"red"}}>error!!..{errors.lastname}</p>}
+                            {errors.lastname && <p style={{color:"red"}}>{errors.lastname}</p>}
                         </Row>
                         <Row>
                             <p style={{ marginLeft: 2.5, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}><Checkbox variant='outlined' />&nbsp;&nbsp;<b>Ship to my billing address</b></p>
@@ -183,25 +259,28 @@ export default function Payment() {
             </Modal>
 
             {/*paypal modal*/}
-            <Modal show={Open} onHide={handleClose}>
+            <Modal show={activeModal === 'paypal'} onHide={handleClose}>
                 <Modal.Header >
                     <img style={{ width: 180, marginLeft: 130 }} src='https://cdn.icon-icons.com/icons2/2699/PNG/512/paypal_logo_icon_170865.png'></img>
                     <hr></hr>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form noValidate >
+                    <Form className='paypal-form' noValidate >
                         <Row className="mb-3">
 
-                            <h6 id='payment-details' style={{ marginTop: 5, marginLeft: 130 }}>Pay with PayPal</h6>
-                            <TextField sx={{ marginTop: 2, marginLeft: 2.5, width: 418 }} onChange={handleChange} name='email' type='email' label='Email'></TextField><br></br>
+                            <h6 id='payment-details' style={{textAlign:'center' }}>Pay with PayPal</h6>
+                            <TextField sx={{marginTop:2}} className='payment-inputs' onChange={handleChange} name='email' type='email' label='Email' value={paypalData.email}></TextField>
+                            {textError.email && <p style={{color:"red"}}>{textError.email}</p>}
                             <Divider sx={{ marginTop: 2 }}>or</Divider>
-                            <TextField sx={{ marginTop: 2, marginLeft: 2.5, width: 418 }} onChange={handleChange} name='email' type='tel' label='Mobile Number'></TextField><br></br>
-                            <TextField sx={{ marginTop: 2, marginLeft: 2.5, width: 418 }} onChange={handleChange} name='password' type='text' label='Password'></TextField>
+                            <TextField sx={{marginTop:2,marginBottom:2}}  className='payment-inputs'  onChange={handleChange} name='mobile' type='tel'value={paypalData.mobile} label='mobile'></TextField>
+                            {textError.mobile && <p style={{color:"red"}}>{textError.mobile}</p>}
+                            <TextField className='payment-inputs'  onChange={handleChange} name='password' type='password'value={paypalData.password} label='Password'></TextField>
+                            {textError.password && <p style={{color:"red"}}>{textError.password}</p>}
                             <p style={{ marginLeft: 2.5, paddingRight: 20, paddingTop: 20, paddingBottom: 20 }}><Checkbox variant='outlined' />&nbsp;&nbsp;<b>Stay logged in for faster checkout<HelpOutlineIcon sx={{ fontSize: 20, marginLeft: 1, color: "#3b5999" }} /></b></p>
                         </Row>
                         <Row>
-                            <Button id='payment-button'>Log In</Button>
-                            <p style={{ marginLeft: 150, paddingTop: 20, color: "cornflowerblue" }} >Having trouble logging in?</p>
+                            <Button id='payment-button' type='submit' onClick={handleSubmit}>Log In</Button>
+                            <p style={{ textAlign:'center', paddingTop: 20, color: "cornflowerblue" }} >Having trouble logging in?</p>
                             <Divider sx={{ marginTop: 2, marginBottom: 2 }}>or</Divider>
                             <Button id='debit-button'>Pay with Debit or Credit Card</Button>
                         </Row>

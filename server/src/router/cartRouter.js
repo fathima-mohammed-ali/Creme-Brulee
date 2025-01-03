@@ -310,6 +310,8 @@ cart.get("/quantity-minus-cart/:_id", async (req, res) => {
     try {
         const { _id } = req.params
         const old = await cartModel.findOne({ _id: _id })
+        console.log(old);
+        
         const quantity = old.quantity - 1
         const add = await cartModel.updateOne({ _id: _id }, { $set: { quantity: quantity } })
         if (add.modifiedCount === 1) {

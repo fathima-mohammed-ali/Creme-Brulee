@@ -5,13 +5,13 @@ import { Facebook, Instagram, Pinterest, Twitter, YouTube } from '@mui/icons-mat
 export default function Footer() {
   return (
     <>
-   <footer className='flex-container'>
+   <footer className='footer-container'>
    <div className='child-one'>
        <h1 style={{fontFamily:'Dancing script'}}><b>Creme Brulee</b></h1>
     </div>
     <div className='childe-two'>
        <ul id='footer-link' >
-        <h4 style={{fontFamily:'Time of newman',fontSize:30}}>Useful Links</h4>
+        <h4 style={{fontFamily:'Time of newman',fontSize:30,marginTop:30}}>Useful Links</h4>
         <li><a id='useful-links' href=''>About Us</a></li>
         <li><a id='useful-links' href=''>History</a></li>
         <li><a id='useful-links' href=''>Our Location</a></li>

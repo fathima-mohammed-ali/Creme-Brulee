@@ -9,6 +9,8 @@ import { setCategoryName, toggleCategory } from '../features/CategoryName';
 import { setSelectedCategory } from '../features/Categories';
 import { setFiltered } from '../features/Filter';
 
+
+
 // const categories=['cake','cupcake','donut','dessert']
 // function check_category(category){
 //     return category==='cake'|| category==='donut'||category==='dessert'||category==='cupcake';
@@ -22,15 +24,15 @@ export default function Sidebar() {
     const category = useSelector(state => state.selectedCategory.select_Category);
     const [filterValues, setFilterValues] = useState([])
     const [minPrice, setMinPrice] = useState(20); // Initial min price
-    const [maxPrice, setMaxPrice] = useState(80); // Initial max price
+    const [maxPrice, setMaxPrice] = useState(80); // Initial max price;
 
     const navigate = useNavigate()
-console.log(categoryName);
-    const changeFilter = (category) => {
+    console.log(categoryName);
+    const changeFilter = (category, itemName) => {
         //  dispatch(toggleCategory(category));
         //  navigate(`/order-${category}`)
         console.log(category);
-        axios.get(`http://localhost:4000/order/category-filter`, { params: { category: category } }).then((response) => {
+        axios.get(`http://localhost:4000/order/category-filter`, { params: { category: category, itemName: itemName } }).then((response) => {
             console.log(response);
             const filtered_category = response.data.details
             dispatch(setSelectedCategory(filtered_category))
@@ -70,17 +72,70 @@ console.log(categoryName);
             <div className='sidebar'>
                 <ul>
                     <h2 id='categories'>Categories</h2>
-                    <li><Button className='items' onClick={() => { changeFilter('cake');dispatch(setFiltered([])) }}>Cake</Button></li>
-                    <li><Button className='items' onClick={() => { changeFilter('donut');dispatch(setFiltered([])) }}>Donut</Button></li>
-                    <li><Button className='items' onClick={() => { changeFilter('dessert');dispatch(setFiltered([])) }}>Dessert</Button></li>
-                    <li><Button className='items' onClick={() => { changeFilter('cupcake');dispatch(setFiltered([])) }}>Cupcake</Button></li>
+                    <li style={{ marginLeft: 20 }}><Button size='small' sx={{ color: 'gray', fontFamily: 'Poppins', textTransform: 'none', fontSize: '3vh' }} onClick={() => { changeFilter('cake'); dispatch(setFiltered([])) }}>Cake</Button></li>
+                    <li style={{ marginLeft: 20 }}><Button size='small' sx={{ color: 'gray', fontFamily: 'Poppins', textTransform: 'none', fontSize: '3vh' }} onClick={() => { changeFilter('donut'); dispatch(setFiltered([])) }}>Donut</Button></li>
+                    <li style={{ marginLeft: 20 }} ><Button size='small' sx={{ color: 'gray', fontFamily: 'Poppins', textTransform: 'none', fontSize: '3vh' }} onClick={() => { changeFilter('dessert'); dispatch(setFiltered([])) }}>Dessert</Button></li>
+                    <li style={{ marginLeft: 20 }}><Button size='small' sx={{ color: 'gray', fontFamily: 'Poppins', textTransform: 'none', fontSize: '3vh' }} onClick={() => { changeFilter('cupcake'); dispatch(setFiltered([])) }}>Cupcake</Button></li>
                 </ul>
                 <ul>
                     <h2 id='popular-products'>Popular Products</h2>
-                    <li id='items'><Link id='linkItems' to={'/'}>Donuts</Link></li>
-                    <li id='items'><Link id='linkItems' to={'/'}>Cake Pops</Link></li>
-                    <li id='items'><Link id='linkItems' to={'/'}>Cake Sickles</Link></li>
-                    <li id='items'><Link id='linkItems' to={'/'}>Cup Cakes</Link></li>
+                    <li style={{ marginLeft: 20 }}>
+                            <Button
+                                size="small"
+                                sx={{
+                                    color: 'gray',
+                                    fontFamily: 'Poppins',
+                                    textTransform: 'none',
+                                    fontSize: '3vh',
+                                }} onClick={() => { changeFilter('cake','Spanish Delight'); dispatch(setFiltered([])) }}
+                        
+                            >
+                                Spanish Delight
+                            </Button>
+                    </li>
+                    <li style={{ marginLeft: 20 }}>
+                            <Button
+                                size="small"
+                                sx={{
+                                    color: 'gray',
+                                    fontFamily: 'Poppins',
+                                    textTransform: 'none',
+                                    fontSize: '3vh',
+                                }} onClick={() => { changeFilter('dessert','Carre Chocalate'); dispatch(setFiltered([])) }}
+                                
+                            >
+                                Carre Chocalate
+                            </Button>
+                    </li>
+                    <li style={{ marginLeft: 20 }}>
+                            <Button
+                                size="small"
+                                sx={{
+                                    color: 'gray',
+                                    fontFamily: 'Poppins',
+                                    textTransform: 'none',
+                                    fontSize: '3vh',
+                                }} onClick={() => { changeFilter('dessert','Pista Sweet'); dispatch(setFiltered([])) }}
+                            >
+                               Pista Sweet
+                            </Button>
+                    </li>
+                   
+                    <li style={{ marginLeft: 20 }}>
+                            <Button
+                                size="small"
+                                sx={{
+                                    color: 'gray',
+                                    fontFamily: 'Poppins',
+                                    textTransform: 'none',
+                                    fontSize: '3vh',
+                                }} onClick={() => { changeFilter('donut','Strawberry Frost'); dispatch(setFiltered([])) }}
+                                // Button for 'Spanish Delight'
+                            >
+                                Strawberry Frost
+                            </Button>
+                    </li>
+                     
                 </ul>
                 <h2 id='price-filter' className='ms-5'>Price Filter</h2>
                 <Box sx={{ width: 300 }}>
