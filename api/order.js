@@ -1,7 +1,7 @@
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
-import productModel from '../server/src/models/productModel'; // Adjust paths as needed
+import productModel from '../server/src/models/productModel.js'; // Adjust paths as needed
 
 // Multer configuration for file upload
 const storage = multer.diskStorage({

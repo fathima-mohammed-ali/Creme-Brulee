@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import userModel from '../server/src/models/userModel';  // Update paths to match your project structure
-import loginModel from '../server/src/models/loginModel';  // Update paths to match your project structure
+import userModel from '../server/src/models/userModel.js';  // Update paths to match your project structure
+import loginModel from '../server/src/models/loginModel.js';  // Update paths to match your project structure
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {

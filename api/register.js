@@ -1,13 +1,15 @@
 import bcrypt from 'bcrypt';
-import userModel from '../../server/src/model/userModel';
-import loginModel from '../../server/src/model/loginModel';
+import userModel from '../server/src/models/userModel.js';
+import loginModel from '../server/src/models/loginModel.js';
+import connectDB from '../api/connectDB.js';  // Assuming you have a DB connection handler
 
-// Assuming you're going to handle authentication in the future
-// For now, we will ignore the checkAuth middleware (as it's not used in the serverless function)
-
+// Serverless function to handle user registration
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
+            // Ensure database connection is established
+            await connectDB();
+
             // Check if the username already exists
             const oldUser = await loginModel.findOne({ username: req.body.username });
             if (oldUser) {
@@ -28,21 +30,11 @@ export default async function handler(req, res) {
                 });
             }
 
-            // Hash the password
+            // Hash the password using bcrypt
             const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
             // Set role (defaults to 'user' if not provided)
             let role = req.body.role || 'user';
-
-            // Check if the role should be 'admin' and validate if the user is admin
-            // Note: This part can be adjusted to integrate future authentication/authorization middleware
-            // if (role === 'admin' && req.userData.role !== 'admin') {
-            //     return res.status(403).json({
-            //         success: false,
-            //         error: true,
-            //         message: "Only admins can create other admins"
-            //     });
-            // }
 
             // Create login details for the user
             const login_user = {
@@ -55,7 +47,7 @@ export default async function handler(req, res) {
             const login = await loginModel(login_user).save();
 
             if (login) {
-                // Create user details, linked with the login information
+                // Create user details linked to the login information
                 const userdetails = {
                     loginID: login._id,
                     email: req.body.email,
@@ -85,7 +77,7 @@ export default async function handler(req, res) {
             }
 
         } catch (error) {
-            console.error(error);
+            console.error('Registration Error:', error);
             return res.status(500).json({
                 success: false,
                 error: true,
@@ -100,4 +92,3 @@ export default async function handler(req, res) {
         });
     }
 }
-
